@@ -1,14 +1,14 @@
-const http = require("http");
+const express=require('express');
 
-const host = 'localhost';
-const port = 8000;
 
-const requestListener = function(req, res) {
-    res.writeHead(200);
-    res.end("Hello WOrld");
-};
+const app=express();
 
-const server = http.createServer(requestListener);
-server.listen(port,host,() => {
-    console.log(`server is running on http://${host}:${port}`);
+app.use(express.static("public"));
+
+app.get("/",function(req,res){
+    res.sendFile(__dirname+"/html/index.html");
+});
+
+app.listen(3000,function(){
+    console.log("server is running on port 3000");
 })

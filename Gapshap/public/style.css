@@ -1,0 +1,64 @@
+body{
+    background-color: rgb(14, 13, 13);
+}
+
+.container{
+    margin-top: 25vh;
+    height: 40vh;
+    max-width: 500px;
+    padding: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: rgb(32, 30, 30);
+    border: none;
+    box-shadow: 0px -10px 35px 10px red;
+    border-radius: 25px;
+}
+
+.container h1{
+    color: rgb(14, 160, 245);
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.card{
+    padding-top: 50px;
+    align-items: center;
+    text-align: center;
+}
+
+.card button{
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    width: 20%;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+.card2{
+    padding-top: 30px;
+    align-items:flex;
+    color: white;
+}
+.card2 a{
+    color:aqua
+}
+
+.input{
+    padding: 25px;
+    color: black;
+}
+
+.input input{
+    padding: 10px;
+    width: 80%;
+    border-radius: 10px;
+    font-family: 'Courier New';
+    border-color: aqua;
+}
+
+
+.container:hover{
+    box-shadow: 0px 20px 35px 0px green;
+}
