@@ -14,5 +14,5 @@ app.get("/signup",function(req,res){
 })
 
 app.listen(3000,function(){
-    console.log("server is running on port 3000");
+    console.log("server is running on port http://localhost:3000");
 })
