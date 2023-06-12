@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Login</title>
+    <title>Signup</title>
 </head>
 <body>
     <div class="container">
@@ -14,18 +14,18 @@
         </h1>
         <hr>
         <div class="card">
-            <form action="#">
+            <form action="/signup" method="post">
                 <div class="input">
-                    <input type="text"  placeholder="Full Name">
+                    <input type="text" name="fullname"  placeholder="Full Name">
                 </div>
                 <div class="input">
-                    <input type="mail"  placeholder="username email phone no">
+                    <input type="mail" name="mail" placeholder="username email phone no">
                 </div>                <div class="input">
-                    <input type="date"  placeholder="username email phone no">
+                    <input type="date" name="date" placeholder="username email phone no">
                 </div>
 
                 <div class="input">
-                    <input type="password" placeholder="password">
+                    <input type="password"name="password" placeholder="password">
                 </div>
                 <div class="input">
                     <input type="password" placeholder="confirm your password">

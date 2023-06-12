@@ -1,7 +1,7 @@
 body{
     background-color: rgb(14, 13, 13);
 }
-
+/* css for login and signup */
 .container{
     margin-top: 10vh;
     max-width: 500px;
@@ -61,3 +61,5 @@ body{
 .container:hover{
     box-shadow: 0px 20px 35px 0px green;
 }
+
+/* css for login and signup ends here */

@@ -1,7 +1,20 @@
 const express=require('express');
 const bodyparser=require('body-parser');
+const mongoose=require('mongoose');
+
 
 const app=express();
+
+mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
+
+const userSchema=new mongoose.Schema({
+    name:String,
+    email:String,
+    dob:String,
+    pass:String
+    
+});
+const user=mongoose.model('user',userSchema);
 
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({extended:false}));
@@ -18,8 +31,13 @@ app.post("/login",function(req,res){
 })
 
 app.post("/signup",function(req,res){
-    console.log(req.body.mail);
-    console.log(req.body.password)
+    let nam=req.body.fullname;
+    let mail=req.body.mail;
+    let date=req.body.date;
+    let passw=req.body.password;
+    const users=new user({name:nam,email:mail,dob:date,pass:passw});
+    users.save();
+    
 })
 
 
