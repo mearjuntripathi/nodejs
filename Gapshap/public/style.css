@@ -63,3 +63,24 @@ body{
 }
 
 /* css for login and signup ends here */
+
+.msgcontainer{
+   /* background-image: linear-gradient(black,white); */
+    height: 70vh;
+    width: 80vw;
+    margin: 50px auto;
+}
+#msgin{
+    width: 80vw;
+    height: 60px;
+    margin: 50px auto;
+}
+
+.right{
+    margin-left:50vw ;
+    color: white;
+
+}
+.left{ 
+    color: white;
+}
