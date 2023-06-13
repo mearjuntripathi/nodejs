@@ -46,7 +46,9 @@ app.post("/signup",function(req,res){
     let passw=req.body.password;
     const users=new user({name:nam,email:mail,dob:date,pass:passw});
     users.save();
-    res.redirect("/");
+    res.status(201).json({
+        'message': "sucessfully created"
+    });
     
 })
 
