@@ -92,7 +92,7 @@ body {
     border-style: double;
     margin-top: 60px;
     color: rgb(32, 31, 31);
-    background-color: rgb(248, 245, 245);
+    background-color: rgb(239, 229, 211);
     border-radius: 10px;
     padding: 30px;
     /* box-shadow: 0px 1px 20px 0px rgb(48, 94, 94); */
@@ -148,8 +148,8 @@ body {
 }
 
 .right p{
-    background-color: rgb(144, 232, 144);
-    border: 2px solid   rgb(144, 232, 144);
+    background-color: rgb(115, 194, 115);
+    border: 2px solid   rgb(96, 157, 96);
     border-radius: 20px;
     padding: 10px;
     width: max-content;
@@ -158,7 +158,7 @@ body {
     display: inline-block;
     font-size: 1.3rem;
     font-weight: bold;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 .left {
@@ -170,8 +170,8 @@ body {
 
 }
 .left p{
-    background-color: rgb(163, 163, 187);
-    border: 2px solid  rgb(163, 163, 187) ;
+    background-color: rgb(89, 89, 95);
+    border: 2px solid  rgb(87, 87, 89) ;
     border-radius: 20px;
     padding: 10px;
     width: max-content;
@@ -179,7 +179,7 @@ body {
     display: inline-block;
     font-size: 1.3rem;
     font-weight: bold;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 .send{
