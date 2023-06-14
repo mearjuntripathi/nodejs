@@ -1,5 +1,16 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    height: 100vh;
+    width: 100vw;
+}
 body {
     background-color: rgb(23, 23, 23);
+    height: 100vh;
+    width: 100vw;
+
 }
 
 /* css for login and signup */
