@@ -91,7 +91,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     border-style: double;
-    margin-top: 20px;
+    margin-top: 60px;
     color: rgb(32, 31, 31);
     background-color: rgb(209, 194, 194);
     border-radius: 10px;
@@ -121,7 +121,7 @@ body {
     background-color: #4d4a4a;
     position: fixed;
     bottom: 0%;
-    left: 0%;
+    left: 0;
     width: 100%;
 }
 
@@ -130,7 +130,7 @@ body {
     height: 50px;
     margin: 50px auto;
     padding-left: 30px;
-    font-size: large;
+    font-size: small;
     font-family: Courier;
     font-size: 1.3rem;
     border-radius: 20px;
@@ -162,6 +162,14 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: x-large;
 
+}
+.send{
+    background-color: #00b790;
+    padding: 10px;
+    border-radius: 45px;
+    border-style: none;
+    color: white;
+    font-size: large;
 }
 
 .left span {
