@@ -115,20 +115,26 @@ body {
     padding-left: 30px;
     font-size: large;
     font-family: Courier;
+    font-size: 1.3rem;
     border-radius: 20px;
     border-style: none;
 }
 
 
 .right {
-    margin-left: 35%;
+    
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
     color: rgb(0, 0, 0);
-    text-align: end;
+    text-align: right;
     font-family: Arial, Helvetica, sans-serif;
     font-size: x-large;
 }
 .left {
-    max-width: 65%;
+    width: 90%;
+    margin: 10px  auto ;
+    padding: 10px;
     color: rgb(0, 0, 0);
     font-family: Arial, Helvetica, sans-serif;
     font-size: x-large;
