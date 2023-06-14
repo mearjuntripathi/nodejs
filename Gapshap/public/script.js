@@ -7,7 +7,7 @@ button.onclick = function (e) {
     let div = document.createElement("div");
     let message = msginp.value;
     div.classList.add("right");
-    let span=document.createElement("span");
+    let span=document.createElement("p");
     span.innerHTML=message;
     div.appendChild(span);
     container.appendChild(div);
@@ -19,7 +19,7 @@ socket.on('receive', data => {
 
     let div = document.createElement("div");
     div.classList.add("left");
-    let span=document.createElement("span");
+    let span=document.createElement("p");
     span.innerHTML=data;
     div.appendChild(span);
     container.appendChild(div);
