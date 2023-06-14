@@ -7,7 +7,9 @@ button.onclick = function (e) {
     let div = document.createElement("div");
     let message = msginp.value;
     div.classList.add("right");
-    div.innerText = message;
+    let span=document.createElement("span");
+    span.innerHTML=message;
+    div.appendChild(span);
     container.appendChild(div);
     socket.emit('send', message);
     msginp.value = '';
@@ -17,6 +19,9 @@ socket.on('receive', data => {
 
     let div = document.createElement("div");
     div.classList.add("left");
-    div.innerText = data;
+    let span=document.createElement("span");
+    span.innerHTML=data;
+    div.appendChild(span);
+    container.appendChild(div);
     container.appendChild(div);
 })
