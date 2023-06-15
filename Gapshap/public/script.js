@@ -16,7 +16,6 @@ button.onclick = function (e) {
 }
 
 socket.on('receive', data => {
-
     let div = document.createElement("div");
     div.classList.add("left");
     let span=document.createElement("p");
