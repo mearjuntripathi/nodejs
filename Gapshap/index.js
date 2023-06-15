@@ -4,9 +4,6 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
-const io=require('socket.io')(4000,{cors: {
-    origin: '*',
-  }});
 
 
 
@@ -36,21 +33,6 @@ app.get("/", function (req, res) {
 
 app.get("/signup", function (req, res) {
     res.sendFile(__dirname + "/html/signup.html");
-});
-
-app.get("/chat", function (req, res) {
-    res.sendFile(__dirname + "/html/main.html");
-});
-
-
-const users={};
-
-io.on('connection',socket=>{
-    console.log("New User Joined");
-    socket.on('send',data=>{
-        console.log(data);
-        socket.broadcast.emit('receive',data);
-    })
 });
 
 
