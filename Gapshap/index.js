@@ -1,11 +1,30 @@
+const express=require('express')
+const mongoose=require('mongoose');
+const bodyparser=require('body-parser');
 
-const bodyparser = require('body-parser');
-const mongoose = require('mongoose');
-const express = require('express');
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+    cors: {
+      origin: '*',
+    }
+  });
+
+app.use(express.static("public"));
+
+const port = process.env.PORT || 3000; 
 
 
-
+io.on('connection', (socket) => {
+    console.log('user connected'); 
+    socket.on('send',data=>{
+        console.log(data);
+        socket.broadcast.emit('receive',data);
+    })
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
+});
 
 mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
 
@@ -20,6 +39,8 @@ const user = mongoose.model('user', userSchema);
 
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: false }));
+
+
 app.get("/main", function (req, res) {
     res.sendFile(__dirname + "/html/main.html");
     io.on('connection', (socket) => {
@@ -28,12 +49,13 @@ app.get("/main", function (req, res) {
 })
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/html/login.html");
+    res.sendFile(__dirname + "/html/main.html");
 });
 
 app.get("/signup", function (req, res) {
     res.sendFile(__dirname + "/html/signup.html");
 });
+
 
 
 app.post("/login", function (req, res) {
@@ -52,7 +74,6 @@ app.post("/signup", function (req, res) {
 })
 
 
-
-app.listen(3000, function () {
-    console.log("server is running on port http://localhost:3000");
-})
+server.listen(port, function () {
+    console.log(`Listening on port ${port}`);
+});

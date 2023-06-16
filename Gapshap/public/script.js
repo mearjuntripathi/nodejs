@@ -1,4 +1,4 @@
-const socket=io('http://localhost:4000');
+const socket=io('http://localhost:3000');
 let button = document.getElementsByClassName("send")[0];
 let msginp = document.getElementById("msgin");
 let container = document.getElementsByClassName("msgcontainer")[0];
