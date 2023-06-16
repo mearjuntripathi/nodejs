@@ -14,7 +14,7 @@ app.use(express.static("public"));
 
 const port = process.env.PORT || 3000; 
 
-
+//handle different socket event
 io.on('connection', (socket) => {
     console.log('user connected'); 
     socket.on('send',data=>{
@@ -26,6 +26,7 @@ io.on('connection', (socket) => {
     });
 });
 
+//connect to cloud database
 mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
 
 const userSchema = new mongoose.Schema({
@@ -35,6 +36,7 @@ const userSchema = new mongoose.Schema({
     pass: String
 
 });
+
 const user = mongoose.model('user', userSchema);
 
 app.use(express.static("public"));

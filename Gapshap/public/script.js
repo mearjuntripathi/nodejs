@@ -2,7 +2,7 @@ const socket=io('http://localhost:3000');
 let button = document.getElementsByClassName("send")[0];
 let msginp = document.getElementById("msgin");
 let container = document.getElementsByClassName("msgcontainer")[0];
-
+//handle send button event
 button.onclick = function (e) {
     let div = document.createElement("div");
     let message = msginp.value;
@@ -14,7 +14,7 @@ button.onclick = function (e) {
     socket.emit('send', message);
     msginp.value = '';
 }
-
+// handles different socket events
 socket.on('receive', data => {
 
     let div = document.createElement("div");
@@ -26,10 +26,9 @@ socket.on('receive', data => {
     container.appendChild(div);
 })
 
-
+// this is for enter send message
 msginp.addEventListener("keypress",(e)=>{
-    if(e.keyCode===13){
+    if(e.key==="Enter"){
         button.click();
     }    
-
 });
