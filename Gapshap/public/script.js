@@ -25,3 +25,11 @@ socket.on('receive', data => {
     container.appendChild(div);
     container.appendChild(div);
 })
+
+
+msginp.addEventListener("keypress",(e)=>{
+    if(e.keyCode===13){
+        button.click();
+    }    
+
+});
