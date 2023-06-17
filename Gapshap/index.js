@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 });
 
 //connect to cloud database
-// mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
+mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -52,7 +52,7 @@ app.get("/main", function (req, res) {
 })
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/html/main.html");
+    res.sendFile(__dirname + "/html/login.html");
 });
 
 app.get("/signup", function (req, res) {
@@ -62,8 +62,13 @@ app.get("/signup", function (req, res) {
 
 
 app.post("/login", function (req, res) {
-    console.log(req.body.mail);
-    console.log(req.body.password)
+    let mail=req.body.mail;
+    let password=req.body.password
+    user.find().then((data) => {
+        console.log(data[0].name);
+        res.send(data[0].name);
+    });
+       
 })
 
 app.post("/signup", function (req, res) {
