@@ -16,7 +16,8 @@ const port = process.env.PORT || 3000;
 
 //handle different socket event
 io.on('connection', (socket) => {
-    console.log('user connected'); 
+    socket.broadcast.emit('userAdded',socket.id);
+    
     socket.on('send',data=>{
         console.log(data);
         socket.broadcast.emit('receive',data);

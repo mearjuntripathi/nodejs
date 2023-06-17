@@ -81,13 +81,14 @@ body {
 /* css for login and signup ends here */
 .rap {
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
 .msgcontainer {
     /* background-image: linear-gradient(black,white); */
     height: 60vh;
-    width: 80%;
+    width: 70%;
     overflow-y: auto;
     border-style: double;
     margin-top: 60px;
@@ -97,6 +98,29 @@ body {
     padding: 30px;
     /* box-shadow: 0px 1px 20px 0px rgb(48, 94, 94); */
 }
+.usercontiner{
+    height: 60vh;
+    width: 20%;
+    overflow-y: auto;
+    border-style: double;
+    margin-top: 60px;
+    color: rgb(32, 31, 31);
+    background-color: rgb(239, 229, 211);
+    border-radius: 10px;
+    padding: 30px;
+
+}
+.user{
+    background-color: #a6d2f2;
+    padding: 10px;
+    border-style: double;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 1.3rem;
+    font-weight: bolder;
+    max-width: max-content;
+}
+
 
 *::-webkit-scrollbar {
     width: 5px;
@@ -180,6 +204,9 @@ body {
     font-size: 1.3rem;
     font-weight: bold;
     color: rgb(255, 255, 255);
+}
+p {
+    color: white;
 }
 
 .send{
