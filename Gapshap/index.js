@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
     
     socket.on('send',data=>{
         console.log(data);
-        socket.broadcast.emit('receive',data);
+        io.to(data.id).emit('receive',data.msg);
     })
     socket.on('disconnect', function () {
         console.log('user disconnected');
@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 });
 
 //connect to cloud database
-mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
+// mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
 
 const userSchema = new mongoose.Schema({
     name: String,

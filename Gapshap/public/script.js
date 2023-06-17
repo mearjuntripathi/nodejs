@@ -5,6 +5,7 @@ let container = document.getElementsByClassName("msgcontainer")[0];
 let usrcontainer = document.getElementsByClassName("usercontiner")[0];
 
 let userId = [];
+let currentId;
 //handle send button event
 
 button.onclick = function (e) {
@@ -13,10 +14,10 @@ button.onclick = function (e) {
     }
     else {
         let div = document.createElement("div");
-        let message = msginp.value;
+        let message = {id:currentId,msg:msginp.value};
         div.classList.add("right");
         let span = document.createElement("p");
-        span.innerHTML = message;
+        span.innerHTML = message.msg;
         div.appendChild(span);
         container.appendChild(div);
         socket.emit('send', message);
@@ -40,6 +41,9 @@ socket.on('userAdded', (data) => {
     let div = document.createElement('div');
     div.classList.add("user");
     div.innerHTML = data;
+    div.onclick=()=>{
+        currentId=data;
+    }
     usrcontainer.appendChild(div);
 });
 
