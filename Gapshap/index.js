@@ -62,11 +62,15 @@ app.get("/signup", function (req, res) {
 
 
 app.post("/login", function (req, res) {
+    let isvalidUser=false
     let mail=req.body.mail;
     let password=req.body.password
     user.find().then((data) => {
-        console.log(data[0].name);
-        res.send(data[0].name);
+        data.forEach(element => {
+            if(mail===element.email && password===element.pass){
+                res.sendFile(__dirname+"/html/main.html");
+            }
+        });
     });
        
 })
