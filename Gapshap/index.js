@@ -11,11 +11,13 @@ const io = require('socket.io')(server, {
   });
 
 app.use(express.static("public"));
+app.set('view engine','ejs');
 
 const port = process.env.PORT || 3000; 
 
 //handle different socket event
 io.on('connection', (socket) => {
+    
     socket.broadcast.emit('userAdded',socket.id);
     
     socket.on('send',data=>{
@@ -43,20 +45,12 @@ const user = mongoose.model('user', userSchema);
 app.use(express.static("public"));
 app.use(bodyparser.urlencoded({ extended: false }));
 
-
-app.get("/main", function (req, res) {
-    res.sendFile(__dirname + "/html/main.html");
-    io.on('connection', (socket) => {
-        console.log('connected');
-    })
-})
-
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/html/login.html");
+    res.render("login");
 });
 
 app.get("/signup", function (req, res) {
-    res.sendFile(__dirname + "/html/signup.html");
+    res.render("signup");
 });
 
 
@@ -68,11 +62,15 @@ app.post("/login", function (req, res) {
     user.find().then((data) => {
         data.forEach(element => {
             if(mail===element.email && password===element.pass){
-                res.sendFile(__dirname+"/html/main.html");
+                res.render('main',{name:element.name,email:element.email});
             }
         });
     });
        
+});
+
+app.get("/main",(req,res)=>{
+    res.render('main',{name:"Aniket",email:"ka344057@gmail.com"}); 
 })
 
 app.post("/signup", function (req, res) {

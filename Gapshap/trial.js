@@ -1,14 +1,12 @@
-const mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    dob: String,
-    pass: String
+const express=require('express');
 
+const app=express();
+app.set('view engine', 'ejs');
+
+app.get("/",(req,res)=>{
+    res.render("main");
+    
 });
-
-const user = mongoose.model('user', userSchema);
-user.find().then((data) => {
-    console.log(data);
+app.listen(3000,()=>{
+    console.log(__dirname);
 })
