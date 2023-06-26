@@ -3,9 +3,10 @@ let button = document.getElementsByClassName("send")[0];
 let msginp = document.getElementById("msgin");
 let container = document.getElementsByClassName("msgcontainer")[0];
 let usrcontainer = document.getElementsByClassName("usercontiner")[0];
-let userSelected=false;
+let searchBtn = document.getElementsByClassName("search")[0];
+let userSelected = false;
 let currentId;
-const userId=[];
+const userId = [];
 //handle send button event
 
 button.onclick = function (e) {
@@ -26,6 +27,14 @@ button.onclick = function (e) {
     }
 
 }
+searchBtn.onclick = (e) => {
+    fetch("/users").then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        console.log(data);
+      });
+
+}
 // handles different socket events
 socket.on('receive', data => {
 
@@ -44,12 +53,12 @@ socket.on('userAdded', (data) => {
     div.innerHTML = data;
     div.onclick = () => {
         currentId = data;
-        if(userSelected){
+        if (userSelected) {
             console.log(Messages);
-            Messages=[];
+            Messages = [];
         }
         else {
-            userSelected=true;
+            userSelected = true;
         }
 
     }
