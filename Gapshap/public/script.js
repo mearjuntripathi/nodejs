@@ -28,11 +28,31 @@ button.onclick = function (e) {
 
 }
 searchBtn.onclick = (e) => {
-    fetch("/users").then(function(response) {
+    var dialog = document.getElementsByTagName("dialog")[0];
+    dialog.showModal();
+    fetch("/users").then(function (response) {
         return response.json();
-      }).then(function(data) {
-        console.log(data);
-      });
+    }).then(function (data) {
+        try {
+            data.forEach(element => {
+                let p = document.createElement("p");
+                p.innerText = element.name;
+                dialog.appendChild(p);
+
+
+            });
+        }
+        finally {
+            var btn = document.createElement("button");
+            btn.innerText = "cancel";
+            dialog.appendChild(btn);
+            btn.classList.add("canceBtn")
+            btn.onclick = cancel;
+
+        }
+    });
+
+
 
 }
 // handles different socket events
@@ -71,3 +91,12 @@ msginp.addEventListener("keypress", (e) => {
         button.click();
     }
 });
+
+function cancel() {
+    var dialog = document.getElementsByTagName("dialog")[0];
+
+    while (dialog.lastElementChild) {
+        dialog.removeChild(dialog.lastElementChild);
+    }
+    dialog.close();
+}

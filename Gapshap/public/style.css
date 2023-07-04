@@ -239,3 +239,53 @@ p {
     font-size: large;
     border: 2px solid rgb(255, 255, 255);
 }
+.popup{
+    width: fit-content; ;
+    height: max-content;
+    position: absolute;
+    top: 50px;
+    right:100px;
+    z-index: 1;
+    background-color: red;
+}
+.userContiner{
+    height: 30px;
+    max-width: 300px;
+}
+dialog{
+    width: fit-content;
+    border-style: double;
+    border-radius: 20px;
+    max-height: 300px;
+    overflow: auto;
+    color: black;
+    height:max-content;
+    margin: auto;
+    text-align: center;
+}
+dialog p{
+    color: black;
+    width: 300px;
+    max-width: 300px;
+    border: 2px solid black;
+    
+    border-radius: 20px;
+    background-color: #00b790;
+    padding: 5px;
+    margin: 10px;
+    text-align: center;
+    font-size: xx-large;
+    cursor: pointer;
+}
+dialog p:hover{
+    border-radius: 20px;
+    background-color: white;
+}
+.canceBtn{
+    width: fit-content;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: larger;
+    background-color: red;
+    cursor: pointer;
+}

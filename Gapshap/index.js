@@ -29,8 +29,8 @@ io.on('connection', (socket) => {
     });
 });
 
-//connect to cloud database
-// mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
+// connect to cloud database
+mongoose.connect("mongodb+srv://admin-aniket:Test123@cluster0.bikic.mongodb.net/userDB");
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -84,11 +84,10 @@ app.post("/signup", function (req, res) {
 });
 
 app.get("/users", (req, res) => {
-    // user.find().then((data) => {
-    //     res.send(data);
-    // });
-    let data=["aniket","abhinav","Akasha","Shani","Prakhar"];
-    res.send(data);
+    user.find().then((data) => {
+        res.send(data);
+    });
+    
 });
 
 server.listen(port, function () {
