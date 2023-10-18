@@ -7,7 +7,7 @@ let data = [
     { "name": "Aman Yadav", "course": "MCA", "roll_no": "08", "id": 3}
 ];
 
-// app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
 //Getting all Data from RESTAPI
