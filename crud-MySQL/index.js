@@ -61,10 +61,10 @@ async function addStudent(req, res) {
     try {
         const value = req.body;
         const query = "INSERT INTO students SET ?";
-        // const result = await queryPromise(query, value);
+        const result = await queryPromise(query, value);
 
         res.status(201).json({ message: "Data Successfully inserted" });
-        console.log(value);
+        console.log(result);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Some issue occurred" });

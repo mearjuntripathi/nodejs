@@ -1,210 +1,297 @@
-# Building a Robust RESTful API with Node.js and MySQL
+# Building a RESTful API with Node.js and MySQL
 
-In our previous blog post, we explored creating CRUD operations for student data using Node.js, Express.js, and JSON. However, we encountered a major drawback – data was lost when the server closed. Today, we're introducing MySQL, a relational database management system, to store data securely.
+In our previous blog post, we explored creating CRUD operations for student data using `Node.js`, `Express.js`, and `JSON`. However, we encountered a major drawback – data was lost when the server closed. Today, we're introducing MySQL, a relational database management system, to store data securely.
 
-Let's dive into the world of databases and create a resilient RESTful API using Node.js, unlocking the full potential of web development.
-
-Certainly, let's add a table of contents to your blog post, along with descriptions for each section.
-
+Let's dive into the world of databases and create a resilient RESTful API using `Node.js`, unlocking the full potential of web development.
 
 ## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Prerequisites](#prerequisites)
-3. [Setting Up Your Environment](#setting-up-your-environment)
-    - [Initialize Your Project](#initialize-your-project)
-    - [Install Dependencies](#install-dependencies)
-4. [Creating the API](#creating-the-api)
-    - [Database Connection](#database-connection)
-    - [Implementing CRUD Operations](#implementing-crud-operations)
-5. [API Endpoints](#api-endpoints)
-6. [Testing Your API](#testing-your-api)
+1. [Prerequisites](#prerequisites)
+2. [Step 1: Initialize the Project](#step-1-initialize-the-project)
+3. [Step 2: Set Up the Database](#step-2-set-up-the-database)
+4. [Step 3: Create API Endpoints](#step-3-create-api-endpoints)
+    - [Get All Students](#get-all-students)
+    - [Get a Student by ID](#get-a-student-by-id)
+    - [Add a Student](#add-a-student)
+    - [Update a Student](#update-a-student)
+        - [Full Update](#full-update)
+        - [Partial Update](#partial-update)
+    -[Delete a Student](#delete-a-student)
+5. [Step 4: Start the Server](#step-4-start-the-server)
+6. [Step 5: Test Your API](#step-5-test-your-api)
 7. [Conclusion](#conclusion)
 
-## Introduction <a id="introduction"></a>
+## Prerequisites
 
-In this tutorial, we'll walk through the process of creating a RESTful API using Node.js, Express, and MySQL. We'll cover the basic CRUD (Create, Read, Update, Delete) operations, allowing you to interact with a MySQL database.
+Before you begin, make sure you have the following installed on your system:
 
-## Prerequisites <a id="prerequisites"></a>
+- Node.js/Express.js
+- MySQL Server (e.g., MariaDB)
+- A code editor (e.g., Visual Studio Code)
 
-Before we dive in, make sure you have the following installed on your system:
+## Step 1: Initialize the Project
 
-- Node.js and npm
-- MySQL Database
-- Postman (for testing API endpoints)
+1. Create a new directory for your project.
+2. Open a terminal and navigate to the project directory.
+3. Run `npm init` to initialize your Node.js project and follow the prompts to create a `package.json` file.
+4. Install the necessary packages:
 
-## Setting Up Your Environment <a id="setting-up-your-environment"></a>
+    ```bash
+    mkdir crud-MySQL
+    cd crud-MySQL
+    npm init -y
+    npm i express mysql
+    ```
 
-### Initialize Your Project <a id="initialize-your-project"></a>
-
-First, let's set up a new Node.js project. Create a new directory for your project and run:
-
-```bash
-mkdir node-mysql-rest-api
-cd node-mysql-rest-api
-npm init -y
-```
-
-### Install Dependencies <a id="install-dependencies"></a>
-
-We'll need Express and the MySQL package to build our API. Install them using npm:
-
-```bash
-npm i express mysql
-```
-
-## Creating the API <a id="creating-the-api"></a>
-
-### Database Connection <a id="database-connection"></a>
-
-In your `app.js` or main file, establish a connection to your MySQL database:
-
-create a table and data base 
+5. Create a database and table where data which we store
 ![](./image/mysql.png)
 
+All done in inilization
+
+## Step 2: Set Up the Database
+
+1. Create a MySQL database named `test`.
+2. Inside your project directory, create a JavaScript file (e.g., `app.js`) and require the necessary modules:
 
 ```javascript
-// Database connection code here
+import express from 'express';
+import mysql from 'mysql';
+```
+
+3. Create an instance of the Express application and configure it to parse JSON and URL-encoded data:
+
+```javascript
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+```
+
+4. Define the MySQL connection parameters and establish a connection:
+
+```javascript
 const con = mysql.createConnection({
     host: "localhost",
-    password: "",
     user: "root",
+    password: "",
     database: "test"
 });
 
 con.connect(err => {
     if (err) {
-        console.error("Database Commection error:", err);
+        console.error("Database Connection Error:", err);
     } else {
-        console.log('Sucessfully database connected');
+        console.log('Successfully connected to the database');
     }
 });
 ```
 
-### Implementing CRUD Operations <a id="implementing-crud-operations"></a>
+## Step 3: Create API Endpoints
 
-Let's create the routes and functions for our API:
+Now, let's define the API endpoints for your RESTful API.
 
-- `GET /students` to retrieve all students.
-- `GET /students/:id` to retrieve a specific student.
-- `POST /students` to add a new student.
-- `PUT /students/:id` to update a student's information.
-- `PATCH /students/:id` to partially update a student's information.
-- `DELETE /students/:id` to delete a student.
+Here we use query promise which use promise which help to avoide "[pyramid of doom](https://en.wikipedia.org/wiki/Pyramid_of_doom_(programming))"
 
 ```javascript
-// Implement your CRUD operations here
-async function getAllStudents(req, res) {
+function queryPromise(query, value) {
+    return new Promise((resolve, reject) => {
+        con.query(query, value, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        })
+    })
+}
+```
+
+### Get All Students
+ - Endpoint: `/students`
+  - Method: GET
+  - Description: Retrieves a list of all student records from database.
+
+```javascript
+app.get("/students/", async (req, res) => {
     try {
         const query = "SELECT * FROM students";
         const result = await queryPromise(query);
         res.status(200).send(result);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Some issue occured" });
+        res.status(500).json({ message: "Some issue occurred" });
     }
-}
+});
+```
 
-async function getAStudent(req, res) {
+### Get a Student by ID
+  - Endpoint: `/students/:id`
+  - Method: GET
+  - Description: Retrieves a single student record by providing the `id` parameter in db table.
+
+```javascript
+app.get('/students/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const query = "SELECT * FROM students where id = ?";
+        const query = "SELECT * FROM students WHERE id = ?";
         const result = await queryPromise(query, id);
         res.status(200).send(result);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Some issue occured" });
+        res.status(500).json({ message: "Some issue occurred" });
     }
-}
+});
+```
 
-async function addStudent(req, res) {
+### Add a Student
+  - Endpoint: `/students`
+  - Method: POST
+  - Description: Adds a new student record to the db table.
+
+```javascript
+app.post('/students', async (req, res) => {
     try {
         const value = req.body;
         const query = "INSERT INTO students SET ?";
-        // const result = await queryPromise(query, value);
+        const result = await queryPromise(query, value);
 
-        res.status(201).json({ message: "Data Successfully inserted" });
-        console.log(value);
+        res.status(201).json({ message: "Data successfully inserted" });
+        console.log(result);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Some issue occurred" });
     }
-}
+});
+```
 
-async function updateStudent(req,res){
-    try{
+### Update a Student
+
+#### Full Update
+
+  - Endpoint: `/students/:id`
+  - Method: PUT
+  - Description: Updates an existing student from table by providing the `id` parameter.
+
+```javascript
+app.put('/students/:id', async (req, res) => {
+    try {
         let id = req.params.id;
-        req.body.name = req.body.name !== undefined ? req.body.name : "";
-        req.body.course = req.body.course !== undefined ? req.body.course : "";
-        req.body.roll_no = req.body.roll_no !== undefined ? req.body.roll_no : "";
         const value = req.body;
-
         const query = "UPDATE students SET ? WHERE id = ?";
-        const result = await queryPromise(query,[value, id]);
-        res.status(202).json({message: "Data Update Sucessfully"});
+        const result = await queryPromise(query, [value, id]);
+        res.status(202).json({ message: "Data updated successfully" });
         console.log(result);
-    }catch(error){
+    } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Some issue occurred" });
     }
-}
+});
+```
 
-async function updateStudentvalue(req, res){
-    try{
+#### Partial Update
+
+  - Endpoint: `/students/:id`
+  - Method: PATCH
+  - Description: Partially updates an existing student from table by providing the `id` parameter. You can update one or more fields individually.
+
+```javascript
+app.patch('/students/:id', async (req, res) => {
+    try {
         const id = req.params.id;
         const value = req.body;
         const query = "UPDATE students SET ? WHERE id = ?";
-
         const result = await queryPromise(query, [value, id]);
-        res.status(202).json({message: "Data Update Sucessfully"});
+        res.status(202).json({ message: "Data updated successfully" });
         console.log(result);
-    }catch(error){
+    } catch (error) {
         console.error(error);
-        res.status(500).json({message: "Some issue occurred"});
+        res.status(500).json({ message: "Some issue occurred" });
     }
-}
-
-async function deleteStudent(req, res){
-    try{
-        const id = req.params.id;
-        const query = "DELETE FROM students where id = ?";
-
-        const result = await queryPromise(query, id);
-        res.status(200).json({message: "Data delete sucessfully"});
-    }catch(error){
-        console.error(error);
-        res.status(500).json({message: "Some issue occurred"});
-    }
-}
+});
 ```
 
-## API Endpoints <a id="api-endpoints"></a>
+### Delete a Student
 
-Define the API endpoints and set up Express to listen on a specific port:
+  - Endpoint: `/students/:id`
+  - Method: DELETE
+  - Description: Deletes an existing student from table by providing the `id` parameter.
 
 ```javascript
-// API endpoint definitions here
-app.get("/students/", getAllStudents);
-
-app.get('/students/:id', getAStudent);
-
-app.post('/students', addStudent);
-
-app.put('/students/:id', updateStudent)
-
-app.patch('/students/:id', updateStudentvalue)
-
-app.delete('/students/:id', deleteStudent)
-
-app.listen(port, console.log(`Server started on http://localhost:${port}`));
+app.delete('/students/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = "DELETE FROM students WHERE id = ?";
+        const result = await queryPromise(query, id);
+        res.status(200).json({ message: "Data deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Some issue occurred" });
+    }
+});
 ```
 
-## Testing Your API <a id="testing-your-api"></a>
+## Step 4: Start the Server
 
-Use Postman to test your API endpoints. Send GET, POST, PUT, PATCH, and DELETE requests to verify that your API works as expected.
+Finally, start the server and listen on a port (e.g., 3000):
 
-## Conclusion <a id="conclusion"></a>
+```javascript
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server started on http://localhost:${port}`);
+});
+```
 
-Congratulations! You've created a RESTful API with Node.js, Express, and MySQL. This tutorial covered the basics, but you can expand on it by adding authentication, input validation, and error handling to make your API production-ready.
+## Step 5: Test Your API
 
-Feel free to adapt and extend this code for your specific project needs. Happy coding!
+It's crucial to thoroughly test your RESTful API to ensure that it functions as expected. You can use tools like Postman or cURL to make HTTP requests to the defined endpoints and verify their behavior. Here's how you can test each HTTP request type:
+
+1. **GET Request**
+
+    ![GET Request](./image/get.png)
+
+    - **Description**: Perform a GET request to retrieve data from your API.
+    - **Expected Result**: Since there's no data in the initial state, the response should be empty. Ensure that the API responds with the correct HTTP status code (usually 200 OK for a successful GET request).
+
+2. **POST Request**
+
+    ![POST Request](./image/post1.png) Insert element 1
+    ![POST Request](./image/post2.png) Insert element 2
+    ![POST Request](./image/post3.png) Insert element 3
+
+    - **Description**: Execute a POST request to add new elements to your database.
+    - **Expected Result**: The API should accept the POST request, insert the specified data into the database, and respond with a success message or a unique identifier for the newly created resource. Check that the data has been added to your database.
+
+3. **PUT Request**
+
+    ![PUT Request](./image/put.png)
+
+   To check the update, use a **GET Request with a single user**:
+
+    ![GET Request with Single User](./image/put-get.png)
+
+    - **Description**: Use a PUT request to update existing data in your database.
+    - **Expected Result**: The API should allow updates to the specified resource, and when you subsequently make a GET request for the updated resource, it should return the modified data. Confirm that the resource was successfully updated.
+
+4. **PATCH Request**
+
+    ![PATCH Request](./image/patch.png)
+
+   For verification, use a **GET Request with a single user**:
+
+    ![GET Request with Single User](./image/patch-get.png)
+
+    - **Description**: Send a PATCH request to partially modify an existing resource.
+    - **Expected Result**: The API should apply the specified changes to the resource and respond with a success message. When you subsequently make a GET request for the resource, it should return the modified data. Ensure that the partial update was successful.
+
+5. **DELETE Request**
+
+    ![DELETE Request](./image/delete.png)
+
+   To retrieve all data, send a **GET Request**:
+
+    ![GET All Data](./image/delete-get.png)
+
+    - **Description**: Issue a DELETE request to remove a resource from the database.
+    - **Expected Result**: The API should delete the specified resource and return a success message. When you make a subsequent GET request for all data, the deleted resource should no longer be present.
+
+By conducting these tests, you can ensure that your RESTful API functions correctly and meets the requirements of your application. It's essential to verify that your API handles various HTTP methods and responds appropriately to different requests.
+
+That's it! You've successfully created and tested a RESTful API using MySQL and Node.js. You can further enhance your API by implementing features like authentication, data validation, error handling, and more to meet the specific needs of your project.
+
+## Conclusion
+In conclusion, this documentation has outlined the process of creating a RESTful API using MySQL and Node.js. We've covered setting up the environment, establishing a database connection, defining API endpoints, and using query promises to handle asynchronous database queries. This approach enhances code organization and readability, making it easier to manage asynchronous operations in your API. You can further extend this foundation to build more complex and robust applications.
