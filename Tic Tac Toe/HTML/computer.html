@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="./script/ComputerScript.js" defer></script>
+    <script src="./script/gamescript.js" defer></script>
+    <script src="./script/confetti.js" defer></script>
+    
+    <title>Computer select</title>
+</head>
+<body>
+  <div id="confetti-container"></div>
+
+    <div class="game-box" id="select_mode">
+        <h1>Select your mode</h1>
+        <hr width="100%">
+        <button onclick="easyMode()">EASY</button>
+        <button onclick="mediumMode()">Medium</button>
+        <button onclick="hardMode()">Hard</button>
+    </div>
+    <div class="game-box" id="game_mode" style="display: none;">
+        <div class="message">
+            <p>Your Turn</p>
+        </div>
+        <p id="mode">Level : </p>
+        <div class="tictactoe">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <button id="reset">RESET</button>
+    </div>
+</body>
+</html>

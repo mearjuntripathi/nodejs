@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Kalam:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(21, 21, 21);
+    color: white;
+    overflow: hidden;
+}
+
+.welcome-title {
+    width: fit-content;
+    font-family: 'Gochi Hand';
+    text-shadow: 0 0 10px rgb(255, 0, 0);
+    margin: 100px auto;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-size: 500%;
+    /* Start with a reasonable base size */
+    animation-name: blink;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes blink {
+    0% {
+        transform: scale(1);
+    }
+
+    /* Initial state */
+    50% {
+        transform: scale(1.1);
+    }
+
+    /* Back to initial size */
+    100% {
+        transform: scale(1);
+    }
+
+    /* Final state */
+}
+
+.selector {
+    max-width: 400px;
+    margin: 00px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    max-width: 800px;
+    gap: 50px;
+    border-radius: 25px;
+    color: white;
+    box-shadow: 0 0 10px 0px;
+    backdrop-filter: contrast(90%);
+}
+
+.selector a {
+    text-decoration: none;
+    font-family: 'Gochi Hand';
+    padding: 5px 30px;
+    color: white;
+    background-color: rgb(67, 65, 65);
+    border: none;
+    font-size: larger;
+    transition: all 0.5s;
+    border-radius: 25px;
+}
+
+.selector a:hover {
+    color: black;
+    text-decoration: underline;
+    background-color: white;
+}
+
+.game-box {
+    max-width: 400px;
+    padding: 20px;
+    background-color: rgb(17, 17, 17);
+    color: white;
+    box-shadow: 0 0 10px 0px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    margin: 200px auto;
+}
+
+.tictactoe {
+    justify-content: center;
+    display: grid;
+    user-select: none;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 10px;
+    background-color: rgb(255, 255, 255);
+    width: fit-content;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(17, 17, 17);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    user-select: none;
+    text-shadow: 0 0 10px rgb(255, 0, 0);
+    outline: none;
+    font-family: 'Gochi Hand';
+    cursor: pointer;
+}
+
+.winner-cell {
+    color: rgb(255, 0, 0);
+}
+
+
+.game-box button {
+    text-decoration: none;
+    font-family: 'Gochi Hand';
+    padding: 5px 30px;
+    color: white;
+    background-color: rgb(67, 65, 65);
+    border: none;
+    font-size: larger;
+    transition: all 0.5s;
+    border-radius: 25px;
+}
+
+.game-box button:hover {
+    color: black;
+    background-color: white;
+}
+
+.message {
+    font-family: 'Courier New';
+    font-size: xx-large;
+    border: 1px white solid;
+    user-select: none;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.confetti {
+    top: 0;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confettiAnimation 1s linear infinite;
+}
+
+@keyframes confettiAnimation {
+    0% {
+        transform: translateY(0) rotate(0deg) rotateY(0deg);
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(360deg) rotateY(720deg);
+    }
+}
+
+.content {
+    z-index: 2;
+    /* Set a higher z-index for the content to make sure it's above the confetti */
+    padding: 20px;
+    text-align: center;
+    color: #333;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#mode{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bolder;
+    user-select: none;
+}
