@@ -5,6 +5,8 @@ let users = document.querySelectorAll('.user');
 let chat_users = document.querySelector('.chat-users');
 let name = document.getElementById('name');
 
+const chat = {};
+
 window.onload = function () {
     document.querySelector('.users').style.display = 'none';
     document.querySelector('.chat-room').style.display = 'none';
