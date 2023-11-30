@@ -15,6 +15,8 @@ const server = createServer(app);
 
 const io = new Server(server);
 
+const users = {};
+
 app.use(express.static(path.join(__dirname, "/html/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -23,11 +25,12 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/html/index.html");
 })
 
-app.get('/users', (req, res) => {
-    
+app.post('/users', (req,res) => {
+    let id = req.body.id;
+    let otherUser = {...users};
+    delete otherUser[id];
+    res.status(200).json(otherUser);
 })
-
-const users = {};
 
 io.on('connection', (socket) => {
     socket.on('new_user_joined', name => {

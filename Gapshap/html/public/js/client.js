@@ -4,6 +4,19 @@ let audio = new Audio('./tune/tune.mp3')
 
 function new_user_joined(name) {
     socket.emit('new_user_joined', name);
+    fetch('/users',{
+        method : 'POST',
+        body : JSON.stringify({id: socket.id}),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then(response => response.json())  // Parse the JSON response
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function send_message(message) {
