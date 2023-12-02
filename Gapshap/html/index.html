@@ -19,7 +19,8 @@
 <body>
     <section id="welcome">
         <div class="welcome-container">
-            <h1 style="color: white;">Welcome in gapshap</h1>
+            <img src="./image/gapshap.gif" style="width: 100px; margin: auto;">
+            <h1 style="color: white; font-size: xx-large;">Welcome in gapshap</h1>
             <div class="welcome-input">
                 <input type="text" name="name" placeholder="Enter Your Name">
                 <button>Join</button>
@@ -68,7 +69,6 @@
 </html>
 
 <script>
-  
     const wname = document.querySelector('.welcome-input input');
     const wsubmit = document.querySelector('.welcome-input button');
 
@@ -83,6 +83,7 @@
             document.querySelector('.users').style.display = 'flex';
             document.querySelector('.chat-room').style.display = 'block';
             document.getElementById('welcome').style.display = 'none';
+            document.body.classList.add('body');
             wname.value = '';
         }
     })

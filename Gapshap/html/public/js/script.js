@@ -9,7 +9,6 @@ const audio = new Audio('./tune/tune.mp3');
 let activeChat = 'server';
 
 const chats = { 'server': [{ 'server': 'Welcome to the Gapshap Server' }] };
-// notifyMe();
 
 send.addEventListener('click', () => {
     if (message.value != '') {
@@ -78,16 +77,20 @@ function createSenderDiv(message, name) {
 }
 
 document.querySelector('.users').addEventListener('click', function (event) {
-    if (event.target.classList.contains('user')) {
+    const userElement = event.target.closest('.user');
+
+    if (userElement) {
         document.querySelector('.users').classList.add('small');
         document.querySelector('.select').classList.remove('select');
-        document.getElementById(event.target.id).classList.add('select');
-        if(event.target.id !== activeChat){
-            activeChat = event.target.id;
-            loadChatRoom(event.target.id);
+        userElement.classList.add('select');
+
+        if (userElement.id !== activeChat) {
+            activeChat = userElement.id;
+            loadChatRoom(userElement.id);
         }
     }
 });
+
 
 document.getElementById('close').addEventListener('click', () => {
     document.querySelector('.users').classList.remove('small');
