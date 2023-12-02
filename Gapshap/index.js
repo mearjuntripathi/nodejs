@@ -25,29 +25,32 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/html/index.html");
 })
 
-app.post('/users', (req,res) => {
+app.post('/users', (req, res) => {
     let id = req.body.id;
-    let otherUser = {...users};
+    let otherUser = { ...users };  
     delete otherUser[id];
     res.status(200).json(otherUser);
 })
 
+
 io.on('connection', (socket) => {
     socket.on('new_user_joined', name => {
-        users[socket.id] = name;
-        console.log(`${name} is connected`);
-        socket.broadcast.emit('user_joined', name, socket.id);
+        if(name !== 'me' && name != 'server'){
+            users[socket.id] = name;
+            console.log(`${name} is connected`);
+            socket.broadcast.emit('user_joined', name, socket.id);
+        }
     })
 
     socket.on('send', message => {
-        socket.broadcast.emit('message', {message: message, name : users[socket.id]});
+        socket.broadcast.emit('message', { message: message, name: users[socket.id] });
     })
 
-    socket.on('target_send', data => {
-        const {message, id} = data;
-        if(io.sockets.sockets.has(id)){
-            io.to(id).emit('personal_message', {message, id : socket.id});
-        }else{
+    socket.on('personal_send', data => {
+        const { message, id } = data;
+        if (io.sockets.sockets.has(id)) {
+            io.to(id).emit('personal_message', { message, id: socket.id });
+        } else {
             console.log('user not found');
         }
     })
@@ -56,7 +59,7 @@ io.on('connection', (socket) => {
         const disconnectedUserName = users[socket.id];
         delete users[socket.id]; // Remove the user from the users object
         socket.broadcast.emit('user_removed', disconnectedUserName, socket.id);
-        console.log(disconnectedUserName+ ' is disconnected');
+        console.log(disconnectedUserName + ' is disconnected');
     });
 });
 

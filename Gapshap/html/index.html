@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./image/gapshap.png">
     <link rel="stylesheet" href="./css/welcome.css">
 
     <!-- It is a Awasome Font Link -->
@@ -22,8 +23,8 @@
             <div class="welcome-input">
                 <input type="text" name="name" placeholder="Enter Your Name">
                 <button>Join</button>
-            </form>
-        </div>
+                </form>
+            </div>
     </section>
     <section class="users">
         <div class="search-box">
@@ -34,7 +35,10 @@
             </div>
         </div>
         <div class="chat-users">
-            <div class="user select"><div class="icon"><i class="fa fa-users"></i></div><div class="name">Our Server Group</div></div>
+            <div class="user select" id="server">
+                <div class="icon"><i class="fa fa-users"></i></div>
+                <div class="name">Our Server Group</div>
+            </div>
         </div>
     </section>
     <section class="chat-room">
@@ -49,7 +53,7 @@
         </div>
         <div class="container">
             <div class="server">
-                <p>welcome to the Gapshap Server</p>
+                <p>Welcome to the Gapshap Server</p>
             </div>
         </div>
         <div class="message-box">
@@ -64,16 +68,20 @@
 </html>
 
 <script>
+    window.onload = function () {
+        document.querySelector('.users').style.display = 'none';
+        document.querySelector('.chat-room').style.display = 'none';
+    }
     const wname = document.querySelector('.welcome-input input');
     const wsubmit = document.querySelector('.welcome-input button');
 
     wname.addEventListener('keypress', (event) => {
-        if(event.key === 'Enter' && wname.value.trim() !== '')
+        if (event.key === 'Enter' && wname.value.trim() !== '')
             wsubmit.click();
     })
 
     wsubmit.addEventListener('click', () => {
-        if(wname.value != ''){
+        if (wname.value != '') {
             new_user_joined(wname.value);
             document.querySelector('.users').style.display = 'flex';
             document.querySelector('.chat-room').style.display = 'block';
