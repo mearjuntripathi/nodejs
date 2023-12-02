@@ -38,13 +38,14 @@ socket.on('user_joined', (name, id) => {
 socket.on('personal_message', data => {
     // createPrivateSenderDiv(data.message, data.id);
     updateMessage(data.id, 'personal', data.message);
-    audio.play();
+    // audio.play();
 })
 
 socket.on('user_removed', (name, id) => {
     if (name !== null) {
         updateMessage('server', 'server', `${name} is left chat`);
         // createDiv(`${name} is left chat`, 'server');
+        if (activeChat === id) document.getElementById('server').click();
         removeUser(id);
         delete chats[id];
         // audio.play()

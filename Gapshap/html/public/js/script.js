@@ -111,15 +111,15 @@ function updateMessage(position, from, message) {
                 createDiv(message, from);
             else createSenderDiv(message, from);
         } else {
-            const notification = `<b>${from} <b>: ${message}`;
+            const notification = `<b>${from} </b>: ${message}`;
             notifyMe(position, notification);
         }
     } else {
         chats[position].push({ 'sender': message });
         if (position === activeChat) {
             createPrivateSenderDiv(message);
-        }else{
-            let name = document.getElementById(position).innerText
+        } else {
+            let name = document.getElementById(position).innerText;
             const notification = `<b>${name} </b>: ${message}`;
             notifyMe(name, notification);
         }
