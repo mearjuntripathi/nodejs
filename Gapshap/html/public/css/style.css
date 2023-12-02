@@ -97,6 +97,7 @@ body {
 }
 
 .chat-room {
+    display: none;
     background-color: rgb(117, 0, 128);
     height: 100vh;
     overflow: auto;

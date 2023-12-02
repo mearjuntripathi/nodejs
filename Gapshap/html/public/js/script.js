@@ -78,12 +78,14 @@ function createSenderDiv(message, name) {
 }
 
 document.querySelector('.users').addEventListener('click', function (event) {
-    if (event.target.classList.contains('user') && event.target.id !== activeChat) {
+    if (event.target.classList.contains('user')) {
         document.querySelector('.users').classList.add('small');
         document.querySelector('.select').classList.remove('select');
         document.getElementById(event.target.id).classList.add('select');
-        activeChat = event.target.id;
-        loadChatRoom(event.target.id);
+        if(event.target.id !== activeChat){
+            activeChat = event.target.id;
+            loadChatRoom(event.target.id);
+        }
     }
 });
 

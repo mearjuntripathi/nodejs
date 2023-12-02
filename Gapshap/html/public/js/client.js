@@ -24,6 +24,7 @@ function send_message(message) {
 }
 
 function send_personal_message(message, id) {
+    chats[id].push({'me': message});
     socket.emit('personal_send', { message: message, id: id });
 }
 
