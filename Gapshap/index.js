@@ -5,7 +5,6 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 
 const path = require('path');
-const { log } = require('node:console');
 
 const port = process.env.PORT || 3000;
 
@@ -27,7 +26,7 @@ app.get('/', (req, res) => {
 
 app.post('/users', (req, res) => {
     let id = req.body.id;
-    let otherUser = { ...users };  
+    let otherUser = { ...users };
     delete otherUser[id];
     res.status(200).json(otherUser);
 })
@@ -35,11 +34,11 @@ app.post('/users', (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('new_user_joined', name => {
-        if(name !== 'me' && name != 'server'){
+        if (name !== 'me' && name != 'server') {
             users[socket.id] = name;
             console.log(`${name} is connected`);
             socket.broadcast.emit('user_joined', name, socket.id);
-        }
+        } else io.to(socket.id).emit('reload');
     })
 
     socket.on('send', message => {
@@ -56,12 +55,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        const disconnectedUserName = users[socket.id];
-        delete users[socket.id]; // Remove the user from the users object
-        socket.broadcast.emit('user_removed', disconnectedUserName, socket.id);
-        console.log(disconnectedUserName + ' is disconnected');
+        if (users[socket.id] != null) {
+            const disconnectedUserName = users[socket.id];
+            delete users[socket.id]; // Remove the user from the users object
+            socket.broadcast.emit('user_removed', disconnectedUserName, socket.id);
+            console.log(disconnectedUserName + ' is disconnected');
+        }
     });
 });
 
 server.listen(port, console.log(`Server Start on http://localhost:${port}`));
-

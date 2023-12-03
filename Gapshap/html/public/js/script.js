@@ -1,15 +1,29 @@
+// this is a container which show chats your and senders
 let container = document.querySelector('.container');
+// this is button id which which click we send message
 let send = document.getElementById('send');
+// this is a input field which contains input message
 let message = document.getElementById('message');
+// it contain all user div
 let users = document.querySelectorAll('.user');
+// it contain all user div
 let chat_users = document.querySelector('.chat-users');
+// it contain all chatroom like container, message box 
 let chat_room = document.querySelector('.chat-room');
+// it contain name tag of sender
 let name = document.getElementById('name');
+// it contain a receive notification tune
 const audio = new Audio('./tune/tune.mp3');
+// server is alwase a starting active chat
 let activeChat = 'server';
 
+// here we contain all chats
 const chats = { 'server': [{ 'server': 'Welcome to the Gapshap Server' }] };
 
+// here we contain all chaters
+const chaters = { 'server': { name: 'Our Server Group', value: 0 } };
+
+// this button is when button press for chat
 send.addEventListener('click', () => {
     if (message.value != '') {
         createDiv(message.value, "me");
@@ -21,16 +35,19 @@ send.addEventListener('click', () => {
     }
 })
 
+// when i click enter then it work to send message
 message.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         send.click();
     }
 })
 
+// it scroll container at getting message
 function scrollToBottom() {
     container.scrollTop = container.scrollHeight;
 }
 
+// it add a div to chatusers when new user join chat
 function addUser(name, id) {
     let div = document.createElement('div');
     div.id = id;
@@ -41,11 +58,13 @@ function addUser(name, id) {
     users = document.querySelectorAll('.user');
 }
 
+// it remove that user div when any user leave server
 function removeUser(id) {
     let div = document.getElementById(id);
     chat_users.removeChild(div);
 }
 
+// this is a div which create a div for message in container for sender and me
 function createDiv(message, classname) {
     let div = document.createElement('div');
     div.classList.add(classname);
@@ -56,6 +75,7 @@ function createDiv(message, classname) {
     scrollToBottom();
 }
 
+// this create a div for private sender
 function createPrivateSenderDiv(message) {
     let div = document.createElement('div');
     div.classList.add('sender');
@@ -66,6 +86,7 @@ function createPrivateSenderDiv(message) {
     scrollToBottom();
 }
 
+// this create a div for sender pulicly at server chat 
 function createSenderDiv(message, name) {
     let div = document.createElement('div');
     div.classList.add('sender');
@@ -76,9 +97,10 @@ function createSenderDiv(message, name) {
     scrollToBottom();
 }
 
+// it when i click and user div
 document.querySelector('.users').addEventListener('click', function (event) {
     const userElement = event.target.closest('.user');
-
+    removeRemain(userElement.id);
     if (userElement) {
         document.querySelector('.users').classList.add('small');
         document.querySelector('.select').classList.remove('select');
@@ -91,46 +113,80 @@ document.querySelector('.users').addEventListener('click', function (event) {
     }
 });
 
-
+// it use for responsive design to show users of chat room at a time
 document.getElementById('close').addEventListener('click', () => {
     document.querySelector('.users').classList.remove('small');
 })
 
+// when new user join it insert all previous user
 function insertOldUser(datas) {
     for (const dataId in datas) {
         if (!(dataId in chats)) {
             addUser(datas[dataId], dataId);
             chats[dataId] = [];
+            chaters[dataId] = { name: datas[dataId], value: 0 };
         }
     }
 }
 
+// it tell a how many new message arrived
+function addRemain(id) {
+    // <p class="remain">10</p>
+    let p;
+    const div = document.getElementById(id);
+    if (chaters[id].value == 0) {
+        p = document.createElement('p');
+        p.classList.add('remain');
+    } else {
+        p = document.querySelector(`#${id} .remain`);
+    }
+    chaters[id].value++;
+    p.innerText = chaters[id].value;
+    document.title = "Gapshap - New Message";
+    div.append(p);
+}
+
+// it remove all new message arived when i checked
+function removeRemain(id) {
+    if (chaters[id].value > 0) {
+        const div = document.getElementById(id);
+        let p = document.querySelector(`#${id} .remain`);
+        div.removeChild(p);
+        document.title = "Gapshap";
+        chaters[id].value = 0;
+    }
+}
+
+// it update a message to container and chat data
 function updateMessage(position, from, message) {
-    console.log(position, from, message);
     if (position === 'server') {
         let messageObject = {};
         messageObject[from] = message;
         chats[position].push(messageObject);
+        const notification = `<b>${from} </b>: ${message}`;
+        notifyMe(position, notification);
+        addRemain(position)
         if (position === activeChat) {
             if (from === 'server')
                 createDiv(message, from);
             else createSenderDiv(message, from);
-        } else {
-            const notification = `<b>${from} </b>: ${message}`;
-            notifyMe(position, notification);
+            if (screen.width > 900) removeRemain(position);
         }
+
     } else {
         chats[position].push({ 'sender': message });
+        let name = document.getElementById(position).innerText;
+        const notification = `<b>${name} </b>: ${message}`;
+        notifyMe(name, notification);
+        addRemain(position);
         if (position === activeChat) {
             createPrivateSenderDiv(message);
-        } else {
-            let name = document.getElementById(position).innerText;
-            const notification = `<b>${name} </b>: ${message}`;
-            notifyMe(name, notification);
+            if (screen.width > 900) removeRemain(position);
         }
     }
 }
 
+// it load message at every user
 function loadMessage(id) {
     container.innerHTML = '';
     let chatArray = chats[id];
@@ -152,6 +208,7 @@ function loadMessage(id) {
     }
 }
 
+// it load a chat room for every user
 function loadChatRoom(id) {
     if (id === 'server') {
         chat_room.childNodes[1].childNodes[3].childNodes[1].innerHTML = `<i class="fa fa-users"></i>`;
@@ -163,6 +220,7 @@ function loadChatRoom(id) {
     loadMessage(id);
 }
 
+// it give a notification when i get a new message
 function notifyMe(position, message) {
     if (!("Notification" in window)) {
         alert(message);

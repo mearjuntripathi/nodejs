@@ -1,5 +1,6 @@
 const socket = io();
 
+// jab ham apna nam dal k andar ayenge tab ye kam krega
 function new_user_joined(name) {
     socket.emit('new_user_joined', name);
     fetch('/users', {
@@ -8,9 +9,8 @@ function new_user_joined(name) {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    }).then(response => response.json())  // Parse the JSON response
+    }).then(response => response.json())
         .then(data => {
-            // console.log(data);
             insertOldUser(data);
         })
         .catch(error => {
@@ -24,7 +24,7 @@ function send_message(message) {
 }
 
 function send_personal_message(message, id) {
-    chats[id].push({'me': message});
+    chats[id].push({ 'me': message });
     socket.emit('personal_send', { message: message, id: id });
 }
 
@@ -33,31 +33,29 @@ socket.on('user_joined', (name, id) => {
         updateMessage('server', 'server', `${name} is join chat`);
         addUser(name, id);
         chats[id] = [];
+        chaters[id] = { name: name, value: 0 };
     }
 })
 
 socket.on('personal_message', data => {
-    // createPrivateSenderDiv(data.message, data.id);
     updateMessage(data.id, 'personal', data.message);
-    // audio.play();
 })
 
 socket.on('user_removed', (name, id) => {
     if (name !== null) {
         updateMessage('server', 'server', `${name} is left chat`);
-        // createDiv(`${name} is left chat`, 'server');
         if (activeChat === id) document.getElementById('server').click();
         removeUser(id);
         delete chats[id];
-        // audio.play()
+        delete chaters[id];
     }
 })
 
 socket.on('message', data => {
-    // let name = data.name;
-    // let messageObject = {};
-    // messageObject[name] = data.message;
-    // chats['server'].push(messageObject);
     updateMessage('server', data.name, data.message);
-    // audio.play();
+})
+
+
+socket.on('reload', () => {
+    window.location.reload();
 })

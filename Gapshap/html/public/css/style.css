@@ -77,15 +77,25 @@
     width: 90%;
     margin: auto;
     border-radius: 10px;
+    align-items: center;
     display: flex;
     gap: 10px;
     user-select: none;
     padding: 10px;
 }
 
-
 .user i {
     color: rgb(255, 255, 255);
+}
+
+.remain {
+    margin-left: auto;
+    padding: 5px;
+    background-color: rgb(51, 6, 37);
+    color: rgb(255, 225, 0);
+    font-weight: bolder;
+    font-size: small;
+    border-radius: 50%;
 }
 
 .user:hover {
@@ -149,18 +159,19 @@
     left: 0;
 }
 
-.sender .chat, .personal{
+.sender .chat,
+.personal {
     background-color: rgb(84, 10, 76);
     color: white;
     border: 1px solid rgb(84, 10, 76);
-    padding: 3px 10px; 
+    padding: 3px 10px;
     white-space: pre-wrap;
     border-radius: 10px 10px 10px 0px;
     max-width: 75%;
 }
 
-.chat span{
-    color:  rgb(33, 253, 4);
+.chat span {
+    color: rgb(33, 253, 4);
     padding: 0;
     font-size: small;
     font-weight: bolder;
