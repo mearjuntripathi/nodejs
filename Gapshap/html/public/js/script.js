@@ -16,6 +16,8 @@ let name = document.getElementById('name');
 const audio = new Audio('./tune/tune.mp3');
 // server is alwase a starting active chat
 let activeChat = 'server';
+// search input
+let search = document.getElementById('search');
 
 // here we contain all chats
 const chats = { 'server': [{ 'server': 'Welcome to the Gapshap Server' }] };
@@ -52,7 +54,11 @@ function addUser(name, id) {
     let div = document.createElement('div');
     div.id = id;
     div.classList.add('user');
-    let html = `<div class="icon"><i class="fa fa-user"></i></div><div class="name">${name}</div>`;
+    let html;
+    if (id === 'server') 
+        html = `<div class="icon"><i class="fa fa-users"></i></div><div class="name">${name}</div>`;
+    else 
+        html = `<div class="icon"><i class="fa fa-user"></i></div><div class="name">${name}</div>`;
     div.innerHTML = html;
     chat_users.append(div);
     users = document.querySelectorAll('.user');
@@ -100,12 +106,12 @@ function createSenderDiv(message, name) {
 // it when i click and user div
 document.querySelector('.users').addEventListener('click', function (event) {
     const userElement = event.target.closest('.user');
-    removeRemain(userElement.id);
     if (userElement) {
         document.querySelector('.users').classList.add('small');
         document.querySelector('.select').classList.remove('select');
         userElement.classList.add('select');
 
+        removeRemain(userElement.id);
         if (userElement.id !== activeChat) {
             activeChat = userElement.id;
             loadChatRoom(userElement.id);
@@ -234,4 +240,61 @@ function notifyMe(position, message) {
         })
     }
     audio.play()
+}
+
+// search users
+let timeout;
+search.addEventListener('input', () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        if (search.value != '') {
+            chat_users.innerHTML = '';
+            addUser(chaters['server'].name, 'server');
+            if (chaters['server'].value > 0) {
+                chaters['server'].value--;
+                addRemain('server');
+            }
+            document.getElementById('server').classList.add('select');
+            const usersKey = getUsers(search.value);
+
+            for (const key of usersKey) {
+                addUser(chaters[key].name, key);
+                if (chaters[key].value > 0) {
+                    chaters[key].value--;
+                    addRemain(key);
+                }
+            }
+        } else {
+            chat_users.innerHTML = '';
+            for (const key in chaters) {
+                addUser(chaters[key].name, key);
+                if (chaters[key].value > 0) {
+                    chaters[key].value--;
+                    addRemain(key);
+                }
+            }
+            document.getElementById(activeChat).classList.add('select');
+        }
+    }, 800);
+})
+
+function getUsers(name) {
+    const availableUsers = [];
+    // Convert the search string to lowercase for case-insensitive comparison
+    const lowerCaseName = name.toLowerCase();
+    // Iterate over the keys of the 'chaters' object
+    for (const key in chaters) {
+        if (chaters.hasOwnProperty(key) && key != 'server') {
+            // Convert the name property to lowercase for case-insensitive comparison
+            const lowerCaseUserName = chaters[key].name.toLowerCase();
+
+            // Check if the lowercased name property contains the lowercased search string
+            if (lowerCaseUserName.includes(lowerCaseName)) {
+                // Add the user to the availableUsers object
+                availableUsers.push(key);
+            }
+        }
+    }
+
+    return availableUsers;
 }
