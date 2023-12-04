@@ -28,12 +28,20 @@ function send_personal_message(message, id) {
     socket.emit('personal_send', { message: message, id: id });
 }
 
+function typing(id){
+    socket.emit('typing', id);
+}
+
+function typingOver(id){
+    socket.emit('typingOver', id);
+}
+
 socket.on('user_joined', (name, id) => {
     if (name != null) {
         updateMessage('server', 'server', `${name} is join chat`);
         addUser(name, id);
         chats[id] = [];
-        chaters[id] = { name: name, value: 0 };
+        chaters[id] = { name: name, value: 0, chat: 0 };
     }
 })
 
@@ -44,7 +52,10 @@ socket.on('personal_message', data => {
 socket.on('user_removed', (name, id) => {
     if (name !== null) {
         updateMessage('server', 'server', `${name} is left chat`);
-        if (activeChat === id) document.getElementById('server').click();
+        if (activeChat === id){
+            loadChatRoom('server');
+            document.getElementById('server').classList.add('select');
+        }
         removeUser(id);
         delete chats[id];
         delete chaters[id];
@@ -55,6 +66,25 @@ socket.on('message', data => {
     updateMessage('server', data.name, data.message);
 })
 
+socket.on('typing_server', () => {
+    chaters['server'].chat++;
+    onTypingIndicator('server');
+})
+
+socket.on('typing_individual', (id) => {
+    chaters[id].chat++;
+    onTypingIndicator(id);
+})
+
+socket.on('typingOver_server',()=>{
+    chaters['server'].chat--;
+    offTypingIndicator('server');
+})
+
+socket.on('typingOver_individual',(id)=>{
+    chaters[id].chat--;
+    offTypingIndicator(id);
+})
 
 socket.on('reload', () => {
     window.location.reload();

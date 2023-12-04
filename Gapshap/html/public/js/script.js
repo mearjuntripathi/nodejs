@@ -23,7 +23,7 @@ let search = document.getElementById('search');
 const chats = { 'server': [{ 'server': 'Welcome to the Gapshap Server' }] };
 
 // here we contain all chaters
-const chaters = { 'server': { name: 'Our Server Group', value: 0 } };
+const chaters = { 'server': { name: 'Our Server Group', value: 0, chat: 0} };
 
 // this button is when button press for chat
 send.addEventListener('click', () => {
@@ -44,6 +44,15 @@ message.addEventListener('keypress', (event) => {
     }
 })
 
+// when i start focus on typing
+message.addEventListener('focus',()=>{
+    typing(activeChat);
+})
+
+message.addEventListener('blur', ()=>{
+    typingOver(activeChat);
+})
+
 // it scroll container at getting message
 function scrollToBottom() {
     container.scrollTop = container.scrollHeight;
@@ -55,10 +64,10 @@ function addUser(name, id) {
     div.id = id;
     div.classList.add('user');
     let html;
-    if (id === 'server') 
-        html = `<div class="icon"><i class="fa fa-users"></i></div><div class="name">${name}</div>`;
-    else 
-        html = `<div class="icon"><i class="fa fa-user"></i></div><div class="name">${name}</div>`;
+    if (id === 'server')
+        html = `<div class="icon"><i class="fa fa-users"></i></div><div class="name">${name} <p class="typing">someone is typing <span class="typing-indicator"></span></p></div>`;
+    else
+        html = `<div class="icon"><i class="fa fa-user"></i></div><div class="name">${name} <p class="typing">typing <span class="typing-indicator"></span></p></div>`;
     div.innerHTML = html;
     chat_users.append(div);
     users = document.querySelectorAll('.user');
@@ -130,14 +139,13 @@ function insertOldUser(datas) {
         if (!(dataId in chats)) {
             addUser(datas[dataId], dataId);
             chats[dataId] = [];
-            chaters[dataId] = { name: datas[dataId], value: 0 };
+            chaters[dataId] = { name: datas[dataId], value: 0 , chat: 0};
         }
     }
 }
 
 // it tell a how many new message arrived
 function addRemain(id) {
-    // <p class="remain">10</p>
     let p;
     const div = document.getElementById(id);
     if (chaters[id].value == 0) {
@@ -156,7 +164,7 @@ function addRemain(id) {
 function removeRemain(id) {
     if (chaters[id].value > 0) {
         const div = document.getElementById(id);
-        let p = document.querySelector(`#${id} .remain`);
+        let p = div.childNodes[2];
         div.removeChild(p);
         document.title = "Gapshap";
         chaters[id].value = 0;
@@ -218,11 +226,18 @@ function loadMessage(id) {
 function loadChatRoom(id) {
     if (id === 'server') {
         chat_room.childNodes[1].childNodes[3].childNodes[1].innerHTML = `<i class="fa fa-users"></i>`;
-        name.innerText = 'Our Server Group';
+        document.querySelector('.chat-room').querySelector('.typing').innerHTML = 'someone is typing <span class="typing-indicator"></span>';
     } else {
         chat_room.childNodes[1].childNodes[3].childNodes[1].innerHTML = `<i class="fa fa-user"></i>`;
-        name.innerText = document.getElementById(id).innerText;
+        document.querySelector('.chat-room').querySelector('.typing').innerHTML = 'typing <span class="typing-indicator"></span>';
     }
+    if(chaters[id].chat > 0){
+        document.querySelector('.chat-room').querySelector('.typing').style.display = 'block';
+        typingIndicator(document.querySelector('.chat-room').querySelector('.typing'))
+    }
+    else
+        document.querySelector('.chat-room').querySelector('.typing').style.display = 'none';
+    name.innerText = chaters[id].name;
     loadMessage(id);
 }
 
@@ -297,4 +312,40 @@ function getUsers(name) {
     }
 
     return availableUsers;
+}
+
+// new fnction for implementation
+function onTypingIndicator(id) {
+    let div = document.getElementById(id);
+    let p = div.querySelector('.typing');
+    p.style.display = 'block';
+    if(id === activeChat){
+        document.querySelector('.chat-room').querySelector('.typing').style.display = 'block';
+        typingIndicator(document.querySelector('.chat-room').querySelector('.typing'));
+    }
+    typingIndicator(p);
+}
+
+function offTypingIndicator(id){
+    let div = document.getElementById(id);
+    let p = div.querySelector('.typing');
+    if(document.querySelector('.chat-room').querySelector('.typing').style.display == 'block')
+        document.querySelector('.chat-room').querySelector('.typing').style.display = 'none';
+    p.style.display = 'none';
+}
+
+function typingIndicator(div){
+    let typingIndicator = div.querySelector('.typing-indicator');
+    typingIndicator.innerHTML = ''; // Reset the content
+
+    // Simulate typing animation with dots
+    const numDots = 3;
+    const typingInterval = setInterval(() => {
+        const currentDots = typingIndicator.innerHTML;
+        if (currentDots.length < numDots) {
+            typingIndicator.innerHTML += '.';
+        } else {
+            typingIndicator.innerHTML = '';
+        }
+    }, 600);
 }

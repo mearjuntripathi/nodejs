@@ -135,13 +135,20 @@
     border-radius: 50%;
 }
 
-.name {
+.name,
+.chat-room-user {
     color: white;
     display: flex;
-    font-size: larger;
+    font-size: medium;
     gap: 10px;
     font-weight: bold;
     align-items: center;
+}
+
+.name{
+    flex-direction: column;
+    align-items: start;
+    gap: 0;
 }
 
 .icon {
@@ -322,4 +329,22 @@
 .container::-webkit-scrollbar-track {
     background-color: rgb(53, 2, 53);
     /* Set the color of the track */
+}
+
+/* new feature to impement */
+
+.typing-indicator {
+    font-size: medium;
+    color: rgb(10, 250, 10);
+    font-weight: bolder;
+}
+
+.typing {
+    display: none;
+    font-size: small;
+    /* display: flex; */
+    font-family: 'Gochi Hand';
+    font-weight: bolder;
+    user-select: none;
+    color: rgb(10, 250, 10);
 }

@@ -54,6 +54,22 @@ io.on('connection', (socket) => {
         }
     })
 
+    socket.on('typing', (id) => {
+        if (id === 'server') {
+            socket.broadcast.emit('typing_server');
+        } else {
+            io.to(id).emit('typing_individual', socket.id);
+        }
+    })
+
+    socket.on('typingOver', (id) => {
+        if (id === 'server') {
+            socket.broadcast.emit('typingOver_server');
+        } else {
+            io.to(id).emit('typingOver_individual', socket.id);
+        }
+    })
+
     socket.on('disconnect', () => {
         if (users[socket.id] != null) {
             const disconnectedUserName = users[socket.id];
