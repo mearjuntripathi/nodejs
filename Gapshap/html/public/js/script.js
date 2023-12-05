@@ -119,7 +119,6 @@ document.querySelector('.users').addEventListener('click', function (event) {
         document.querySelector('.users').classList.add('small');
         document.querySelector('.select').classList.remove('select');
         userElement.classList.add('select');
-
         removeRemain(userElement.id);
         if (userElement.id !== activeChat) {
             activeChat = userElement.id;
@@ -164,7 +163,7 @@ function addRemain(id) {
 function removeRemain(id) {
     if (chaters[id].value > 0) {
         const div = document.getElementById(id);
-        let p = div.childNodes[2];
+        let p = div.querySelector('.remain');
         div.removeChild(p);
         document.title = "Gapshap";
         chaters[id].value = 0;
@@ -179,23 +178,25 @@ function updateMessage(position, from, message) {
         chats[position].push(messageObject);
         const notification = `<b>${from} </b>: ${message}`;
         notifyMe(position, notification);
-        addRemain(position)
         if (position === activeChat) {
             if (from === 'server')
                 createDiv(message, from);
             else createSenderDiv(message, from);
-            if (screen.width > 900) removeRemain(position);
+            if (screen.width < 900) addRemain(position);
+        }else{
+            addRemain(position);
         }
 
     } else {
         chats[position].push({ 'sender': message });
-        let name = document.getElementById(position).innerText;
+        let name = chaters[position].name;
         const notification = `<b>${name} </b>: ${message}`;
         notifyMe(name, notification);
-        addRemain(position);
         if (position === activeChat) {
             createPrivateSenderDiv(message);
-            if (screen.width > 900) removeRemain(position);
+            if (screen.width < 900) addRemain(position);
+        }else{
+            addRemain(position);
         }
     }
 }
