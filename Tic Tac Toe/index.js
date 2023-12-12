@@ -1,23 +1,47 @@
 const express = require('express');
-const path = require('path');
-const socket = require('socket.io');
 
-const app = express();
+const { createServer } = require('node:http');
+
+const { Server } = require('socket.io');
+
+const path = require('path');
 
 const port = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, '/HTML/public')));
+const app = express();
+
+const server = createServer(app);
+
+const io = new Server(server);
+
+app.use(express.static(path.join(__dirname, "/html/public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/HTML/index.html")
+    res.sendFile(__dirname + "/html/index.html")
 })
 
 app.get('/computer', (req, res) => {
-    res.sendFile(__dirname + "/HTML/computer.html")
+    res.sendFile(__dirname + "/html/computer.html")
 })
 
 app.get('/game', (req, res) => {
-    res.sendFile(__dirname + "/HTML/game.html")
+    res.sendFile(__dirname + "/html/game.html")
 })
 
-app.listen(port, console.log(`Server Listening on: http://localhost:${port}`));
+app.get('/multiplayer', (req, res) => {
+    res.sendFile(__dirname + "/html/multiplayer.html")
+})
+
+io.on('connection', (socket) => {
+    socket.on('new-player', () => {
+        console.log('play');
+    })
+
+    socket.on('disconnect', () => {
+        console.log('gone');
+    });
+});
+
+server.listen(port, console.log(`Server Listening on: http://localhost:${port}`));

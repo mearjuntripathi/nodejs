@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./style/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiplayer Player</title>
-    <script src="./script/online.js" defer></script>
+    <script src="http://localhost:3000/socket.io/socket.io.js" defer></script>
     <script src="./script/gamescript.js" defer></script>
     <script src="./script/confetti.js" defer></script>
+    <script src="./script/client.js" defer></script>
+
 </head>
+
 <body>
-  <div id="confetti-container"></div>
+    <div id="confetti-container"></div>
     <div class="game-box">
 
         <div class="message">
@@ -30,5 +34,6 @@
         <button id="reset">RESET</button>
     </div>
 </body>
-</html>
 
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
