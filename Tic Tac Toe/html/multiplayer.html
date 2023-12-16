@@ -9,16 +9,29 @@
     <script src="http://localhost:3000/socket.io/socket.io.js" defer></script>
     <script src="./script/gamescript.js" defer></script>
     <script src="./script/confetti.js" defer></script>
+    <script src="./script/onlinePlayer.js" defer></script>
     <script src="./script/client.js" defer></script>
-
 </head>
 
 <body>
+    <div class="game-box" id="select-mode" >
+        <h1>Enter Your name</h1>
+        <div class="input">
+            <input type="text">
+        </div>
+        <p>click <kbd>Enter</kbd> to continue</p>
+    </div>
+
+    <div id="wating" class="game-box" style="display: none;">
+        <div class="loader"></div> 
+        <h3>waiting for opponent ...<h3>
+    </div>
+    
     <div id="confetti-container"></div>
-    <div class="game-box">
+    <div class="game-box" id = "game-mode" style="display: none;">
 
         <div class="message">
-            <p>X Turn</p>
+            <p>Your Turn</p>
         </div>
         <div class="tictactoe">
             <div class="cell"></div>
@@ -31,7 +44,7 @@
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
-        <button id="reset">RESET</button>
+        <button id="leave">Leave Game</button>
     </div>
 </body>
 

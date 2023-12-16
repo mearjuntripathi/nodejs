@@ -4,7 +4,7 @@ function updateWinningCells(winningIndexes) {
     });
 }
 
-function check(cellIndex) {
+function check() {
     const winConditions = [
         [0, 1, 2],
         [3, 4, 5],

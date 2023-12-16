@@ -180,10 +180,48 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#mode{
+#mode {
     border: 1px solid white;
     padding: 10px;
     border-radius: 10px;
     font-weight: bolder;
     user-select: none;
+}
+
+.input {
+    border: 1px solid;
+    width: 90%;
+    padding: 10px 5px;
+    border-radius: 10px;
+}
+
+.input input {
+    width: 100%;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: rgb(252, 206, 2);
+    font-family: 'Courier New';
+    font-weight: bolder;
+    text-align: center;
+    font-size: large;
+}
+
+.loader {
+    border: 16px solid #5a5656;
+    border-top: 16px solid #fcf807;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

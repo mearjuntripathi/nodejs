@@ -18,6 +18,9 @@ app.use(express.static(path.join(__dirname, "/html/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const users = {};
+let waiting = "";
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/html/index.html")
 })
@@ -35,12 +38,29 @@ app.get('/multiplayer', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    socket.on('new-player', () => {
-        console.log('play');
+    socket.on('new-player', (name) => {
+        users[socket.id] = name;
+        console.log(waiting);
+        if(waiting == ""){
+            waiting = socket.id;
+            io.to(socket.id).emit('waiting');
+        }else{
+            io.to(socket.id).emit('match',users[waiting], waiting, false);
+            io.to(waiting).emit('match',users[socket.id], socket.id, true);
+            waiting = "";
+        }
+        console.log(name + ' is joined');
+    });
+
+    socket.on('player-turn', (position, id)=>{
+        io.to(id).emit('my-turn', position);
     })
 
     socket.on('disconnect', () => {
-        console.log('gone');
+        if(users[socket.id] != undefined){
+            console.log(users[socket.id] + ' gone');
+            delete users[socket.id];
+        }
     });
 });
 
