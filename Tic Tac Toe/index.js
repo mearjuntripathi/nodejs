@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
     socket.on('new-player', (name) => {
         users[socket.id] = name;
         console.log(waiting);
-        if(waiting == ""){
+        if(waiting == "" || waiting == undefined){
             waiting = socket.id;
             io.to(socket.id).emit('waiting');
         }else{
