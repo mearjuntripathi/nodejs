@@ -1,4 +1,6 @@
-# Simple Chat Application
+# Gapshap - Simple Chat Application
+
+![](./html/public/image/gapshap.png)
 
 This is a simple chat application using Node.js, Express, and Socket.IO. The application allows users to join a chat room, send messages to all users, and send private messages to specific users.
 
@@ -13,13 +15,13 @@ This is a simple chat application using Node.js, Express, and Socket.IO. The app
 2. Navigate to the project directory:
 
     ```bash
-    cd simple-chat-app
+    cd Gapshap
     ```
 
 3. Install dependencies:
 
     ```bash
-    npm install
+    npm i
     ```
 
 ## Usage
