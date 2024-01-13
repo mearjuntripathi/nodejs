@@ -19,31 +19,7 @@ class ComputerGame {
                     blocks[cellIndex] = this.mode;
                     this.mode = 'o';
                     message.textContent = "Computer turn";
-                    let winner = check();
-                    if (winner !== null) {
-                        if (winner.win == 'x') {
-                            this.#updateWinningCells(winner.condition, 'winner-cell');
-                            message.classList.add('win');
-                            message.textContent = 'You WON';
-                            setTimeout(() => {
-                                startConfetti();
-                                this.#hideTictactoe();
-                            }, 300);
-                        } else if (winner.win == 'o') { // Fix the condition here
-                            this.#updateWinningCells(winner.condition, 'losser-cell');
-                            message.classList.add('loss');
-                            message.textContent = 'You Loss';
-                            setTimeout(() => {
-                                looser();
-                                this.#hideTictactoe();
-                            }, 300);
-                        } else {
-                            message.textContent = 'Match TIE';
-                            setTimeout(() => {
-                                tie();
-                            }, 300);
-                        }
-                    }
+                    this.#evaluvateWinner();
                     setTimeout(() => {
                         this.#computerMode();
                     }, 1000);
@@ -82,25 +58,9 @@ class ComputerGame {
         });
     }
 
-    #computerMode() {
-        if(!blocks.includes('')) return;
-
-        const cells = document.querySelectorAll('.cell');
-        const message = document.querySelector('.message p');
-        let x;
-        if (this.level == 'easy') {
-            x = this.#easy();
-        } else if (this.level == 'medium') {
-            x = this.#medium();
-        } else if (this.level == 'hard') {
-            x = this.#hard();
-        }
-        cells[x].classList.add(this.mode);
-        cells[x].innerHTML = this.mode;
-        blocks[x] = this.mode;
-        this.mode = 'x';
-        message.textContent = "Your turn";
+    #evaluvateWinner(){
         let winner = check();
+        const message = document.querySelector('.message p');
         if (winner !== null) {
             if (winner.win == 'x') {
                 this.#updateWinningCells(winner.condition, 'winner-cell');
@@ -127,6 +87,27 @@ class ComputerGame {
         }
     }
 
+    #computerMode() {
+        if (!blocks.includes('')) return;
+
+        const cells = document.querySelectorAll('.cell');
+        const message = document.querySelector('.message p');
+        let x;
+        if (this.level == 'easy') {
+            x = this.#easy();
+        } else if (this.level == 'medium') {
+            x = this.#medium();
+        } else if (this.level == 'hard') {
+            x = this.#hard();
+        }
+        cells[x].classList.add(this.mode);
+        cells[x].innerHTML = this.mode;
+        blocks[x] = this.mode;
+        this.mode = 'x';
+        message.textContent = "Your turn";
+        this.#evaluvateWinner();
+    }
+
     #easy() {
         let x = Math.floor(Math.random() * 9);
         while (blocks[x] != '')
@@ -135,19 +116,44 @@ class ComputerGame {
     }
 
     #medium() {
-        return this.#hard();
+        // Check if there's an opportunity to win
+        for (let i = 0; i < 9; i++) {
+            if (blocks[i] === '') {
+                blocks[i] = 'o';
+                if (check() !== null && check().win === 'o') {
+                    blocks[i] = ''; // Undo the move
+                    return i;
+                }
+                blocks[i] = ''; // Undo the move
+            }
+        }
+
+        // If no opportunity to win, block the player if they are about to win
+        for (let i = 0; i < 9; i++) {
+            if (blocks[i] === '') {
+                blocks[i] = 'x';
+                if (check() !== null && check().win === 'x') {
+                    blocks[i] = ''; // Undo the move
+                    return i;
+                }
+                blocks[i] = ''; // Undo the move
+            }
+        }
+
+        // If no opportunity to win or block, make a random move
+        return this.#easy();
     }
 
     #hard() {
         let bestMove = -1;
         let bestScore = -Infinity;
 
-        for(let i = 0 ; i < 9 ; i++){
-            if(blocks[i] === ''){
+        for (let i = 0; i < 9; i++) {
+            if (blocks[i] === '') {
                 blocks[i] = 'o';
-                let moveScore = this.#minmax(blocks,0,false);
+                let moveScore = this.#minmax(blocks, 0, false);
                 blocks[i] = '';
-                if(moveScore > bestScore){
+                if (moveScore > bestScore) {
                     bestScore = moveScore;
                     bestMove = i;
                 }
@@ -160,7 +166,7 @@ class ComputerGame {
         let ai = 'o';
         let human = 'x';
         let result = check();
-    
+
         if (result !== null) {
             if (result.win === 'x') {
                 return -1;
@@ -170,7 +176,7 @@ class ComputerGame {
                 return 0; // It's a tie
             }
         }
-    
+
         let bestScore = isMaximizing ? -Infinity : Infinity;
         for (let i = 0; i < 9; i++) {
             if (blocks[i] === '') {
@@ -180,7 +186,7 @@ class ComputerGame {
                 bestScore = isMaximizing ? Math.max(bestScore, score) : Math.min(bestScore, score);
             }
         }
-    
+
         return bestScore;
     }
 }
