@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style/style.css">
-    <script src="./script/ComputerScript.js" defer></script>
-    <script src="./script/gamescript.js" defer></script>
-    <script src="./script/confetti.js" defer></script>
-    
-    <title>Computer select</title>
+    <link rel="stylesheet" href="./style/game.css">
+    <!-- It is a Awasome Font Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="./script/confetti.js"></script>
+    <title>Tic Tac Toe Game</title>
 </head>
-<body>
-  <div id="confetti-container"></div>
 
-    <div class="game-box" id="select_mode">
-        <h1>Select your mode</h1>
-        <hr width="100%">
-        <button onclick="easyMode()">EASY</button>
-        <button onclick="mediumMode()">Medium</button>
-        <button onclick="hardMode()">Hard</button>
+<body>
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <h3>Loading</h3>
     </div>
-    <div class="game-box" id="game_mode" style="display: none;">
+
+    <div id="confetti-container"></div>
+    <div class="level">
+        <h1>Please choose a Level</h1>
+        <button value="easy" onclick="loadLevel(this)" onmouseover="this.style.backgroundColor='green'"
+            onmouseout="this.style.backgroundColor='#434141'">Easy</button>
+        <button value="medium" onclick="loadLevel(this)" onmouseover="this.style.backgroundColor='orange'"
+            onmouseout="this.style.backgroundColor='#434141'">Medium</button>
+        <button value="hard" onclick="loadLevel(this)" onmouseover="this.style.backgroundColor='red'"
+            onmouseout="this.style.backgroundColor='#434141'">Hard</button>
+    </div>
+    <div class="game-box" style="display: none;">
         <div class="message">
             <p>Your Turn</p>
         </div>
-        <p id="mode">Level : </p>
         <div class="tictactoe">
             <div class="cell"></div>
             <div class="cell"></div>
@@ -37,6 +44,21 @@
             <div class="cell"></div>
         </div>
         <button id="reset">RESET</button>
+        <button onclick="location.reload();">Change Level</button>
     </div>
+    <script src="./script/winner.js"></script>
+    <script src="./script/computer.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.body.classList.add("loaded");
+        });
+        this.blocks = ['', '', '', '', '', '', '', '', ''];
+        function loadLevel(evt) {
+            const computer = new ComputerGame(evt.value);
+            document.querySelector('.level').style.display = 'none';
+            document.querySelector('.game-box').style.display = 'flex';
+        }
+    </script>
 </body>
+
 </html>

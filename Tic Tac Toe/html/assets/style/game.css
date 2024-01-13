@@ -1,0 +1,113 @@
+.game-box, .level {
+    max-width: 400px;
+    padding: 20px;
+    flex: 1;
+    background-color: #9de39d;
+    color: rgb(10, 9, 9);
+    box-shadow: 0 0 10px 0px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    margin: 200px auto;
+}
+
+.tictactoe {
+    justify-content: center;
+    display: grid;
+    user-select: none;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 10px;
+    background-color: #f5faf3;
+    width: fit-content;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #9de39d;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    color: rgb(12, 12, 12);
+    transition: all .5s linear;
+    user-select: none;
+    outline: none;
+    font-family: 'Gochi Hand';
+    cursor: pointer;
+}
+
+.x{
+    text-shadow: 0 0 10px rgb(68, 255, 0);
+}
+
+.o{
+    text-shadow: 0 0 10px rgb(255, 0, 0);
+}
+
+.game-box button, .level button {
+    text-decoration: none;
+    font-family: 'Gochi Hand';
+    padding: 5px 30px;
+    color: white;
+    background-color: #434141;
+    border: none;
+    font-size: larger;
+    transition: all 0.5s;
+    border-radius: 25px;
+}
+
+.game-box button:hover {
+    color: black;
+    background-color: white;
+}
+
+.message {
+    font-family: 'Courier New';
+    font-size: xx-large;
+    border: 1px rgb(12, 12, 12) solid;
+    user-select: none;
+    width: 100%;
+    transition: all .5s ease-in;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.winner-cell {
+    color: rgb(60, 255, 0);
+}
+
+.losser-cell {
+    color: rgb(255, 0, 0);
+}
+
+.win{
+    color: green;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+.loss{
+    color: rgb(189, 8, 8);
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+#input{
+    display: flex;
+    max-width: 800px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#input input{
+    padding: 5px;
+    border: none;
+    outline: none;
+    font-weight: bolder;
+    border-radius: 10px;
+}
