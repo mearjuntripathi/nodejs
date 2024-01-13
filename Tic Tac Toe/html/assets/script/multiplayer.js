@@ -1,5 +1,6 @@
 class MultiPlayer {
     constructor() {
+        this.over = false;
         this.mode = '';
         this.opponent = {name:"", id:""};
         this.panel = document.querySelector('.game-box');
@@ -103,11 +104,13 @@ class MultiPlayer {
     }
 
     opponentLeave(){
-        this.#hideTictactoe();
-        const message = document.querySelector('.message p');
-        message.classList.add('win');
-        message.innerHTML = 'Opponent Leave match <br> You won';
-        startConfetti();
+        if(!this.over){
+            this.#hideTictactoe();
+            const message = document.querySelector('.message p');
+            message.classList.add('win');
+            message.innerHTML = 'Opponent Leave match <br> You won';
+            startConfetti();
+        }
     }
 
     #addEventListeners() {
@@ -134,6 +137,7 @@ class MultiPlayer {
         const message = document.querySelector('.message p');
         let winner = check();
         if (winner !== null) {
+            this.over = true;
             if (winner.win == 'x') {
                 this.#updateWinningCells(winner.condition, 'winner-cell');
                 message.classList.add('win');
