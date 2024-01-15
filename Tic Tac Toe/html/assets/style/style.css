@@ -167,16 +167,15 @@ a {
 .battle {
     font-size: 24px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
 } 
 
 .p1, .p2 {
-    width: 30%;
+    width: 50%;
     text-align: center;
     padding: 10px;
-    border-radius: 30% 20%;
+    border-radius: 30% 10%;
     color: white;
     opacity: 0;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
