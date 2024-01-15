@@ -20,9 +20,11 @@ class ComputerGame {
                     this.mode = 'o';
                     message.textContent = "Computer turn";
                     this.#evaluvateWinner();
-                    setTimeout(() => {
-                        this.#computerMode();
-                    }, 1000);
+                    if(check() == null){
+                        setTimeout(() => {
+                            this.#computerMode();
+                        }, 1000);
+                    }
                 }
             });
         });
