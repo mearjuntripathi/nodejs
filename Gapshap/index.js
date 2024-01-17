@@ -16,12 +16,33 @@ const io = new Server(server);
 
 const users = {};
 
+const axios = require('axios');
+
 app.use(express.static(path.join(__dirname, "/html/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/html/index.html");
+app.get('/', async(req, res) => {
+    const clientIP = (req.headers['x-forwarded-for'] || '').split(',')[0] || req.connection.remoteAddress;
+
+  // Get location and OS information using ipinfo.io API
+  try {
+    console.log(clientIP);
+      const response = await axios.get(`http://ipinfo.io/${clientIP}?token=3979fa6394149c`);
+      const { city, region, country, org, ip } = response.data;
+
+      console.log(`User connected from ${clientIP}`);
+      console.log(`Location: ${city}, ${region}, ${country}`);
+      console.log(`Organization: ${org}`);
+      console.log(`IP Address: ${ip}`);
+
+      // Send HTML file or other response to the client
+      res.sendFile(__dirname + "/html/index.html");
+  } catch (error) {
+      console.error(`Error fetching IP information: ${error.message}`);
+      // Handle the error and send an appropriate response
+      res.status(500).send('Internal Server Error');
+  }
 })
 
 app.post('/users', (req, res) => {
