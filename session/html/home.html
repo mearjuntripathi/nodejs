@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./profle.css">
+    <script src="./profile.js" defer></script>
+    <!-- It is a Awasome Font Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Home</title>
+</head>
+
+<body>
+    <div class="profile">
+        <div class="pic">
+            <img src="./images/{{profile_pic}}" alt="">
+            <button style="display: none;">Change Picture</button>
+        </div>
+        <hr>
+        <div class="change-button">
+            <a href="/logout" class="logout"><i class="fa fa-power-off"></i> Logout</a>
+            <button id="check" class="edit"><i class="fa fa-edit"> Edit Profile</i></button>
+        </div>
+        <div class="info">
+            <p class="name">{{name}}</p>
+            <p class="mail">{{email}}</p>
+        </div>
+        <form action="/edit" method="post" enctype="multipart/form-data" class="update" style="display: none;">
+            <input type="file" onchange="showImage();" name="profile_pic" id="pic" accept="image/*" style="display: none;">
+
+            <label for="">Name: </label>
+            <div class="input">
+                <input type="text" name="name" value="{{name}}" />
+            </div>        
+            <label for="">Password: </label>
+            <div class="input">
+                <i class="fa fa-lock" id="passid"></i>
+                <input id="pass" type="password" name="password" value="" />
+            </div>
+            <label for=""> Confirm Password: </label>
+            <div class="input">
+                <i class="fa fa-lock" id="cskpassid"></i>
+                <input id="cskpass" type="password" name="confirm" value="" />
+            </div>
+            <button type="submit" style=" margin:10px;background-color: rgb(8, 164, 70); 
+                            font-size: medium; border:none; padding:5px; 
+                            color: white; border-radius: 10px">
+                <i class="fa fa-save"> Save</i></button>
+        </form>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    function dropdown(bars) {
+        let value = document.querySelector('.nav-list');
+        if (value.classList.contains('dropdown')) {
+            value.classList.remove('dropdown');
+            bars.classList.remove('bars-focus');
+        } else {
+            value.classList.add('dropdown');
+            bars.classList.add('bars-focus');
+        }
+    }
+</script>

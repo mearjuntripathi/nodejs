@@ -1,0 +1,114 @@
+.profile {
+    box-shadow: 0 0 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(245, 237, 237);
+    align-items: center;
+    max-width: 500px;
+    border-radius: 10px;
+    margin: 250px auto;
+}
+
+.pic {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+hr {
+    width: 80%;
+    margin: 10px;
+}
+
+.profile > .info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.pic img {
+    padding: 5px;
+    border: blueviolet solid;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+.name {
+    font-size: x-large;
+    font-weight: bolder;
+    color: black;
+}
+
+.title {
+    font-size: medium;
+    font-weight: bold;
+    color: blueviolet;
+}
+
+.change-button{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.edit {
+    padding: 5px 10px;
+    border-radius: 30px;
+    border: none;
+    font-size: medium;
+    color: white;
+    background-color: rgb(16, 16, 239);
+}
+
+.logout{
+    padding: 5px 10px;
+    border-radius: 30px;
+    border: none;
+    font-size: medium;
+    color: white;
+    background-color: rgb(239, 16, 16);
+}
+
+.cancel {
+    background-color: red;
+    font-size: medium;
+    border: none;
+    padding: 5px;
+    margin-left: auto;
+    color: white;
+    border-radius: 10px
+}
+
+.cancel:hover, .logout:hover {
+    background-color: rgb(183, 8, 8);
+}
+
+.edit:hover {
+    background-color: rgb(8, 8, 172);
+}
+
+.update {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input {
+    max-width: 450px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.input input {
+    align-items: left;
+    border: none;
+    width: 90%;
+    outline: none;
+    font-size: large;
+}

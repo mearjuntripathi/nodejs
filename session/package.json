@@ -1,0 +1,19 @@
+{
+  "name": "web-application",
+  "version": "1.0.0",
+  "description": "Sure, I can guide you on how to create a simple web application with basic authentication, authorization, and image upload functionality. For this example, I'll use Node.js with Express for the server and MongoDB for the database. Additionally, we'll use the `bcrypt` library for password hashing and `express-session` for session management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.1.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
