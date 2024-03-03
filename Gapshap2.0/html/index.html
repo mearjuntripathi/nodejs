@@ -1,0 +1,52 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <input type="text" id="toUserId" placeholder="To User ID">
+    <input type="text" id="messageInput" placeholder="Type your message">
+    <button onclick="sendMessage()">Send</button>
+
+    <ul id="chatMessages"></ul>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:3000');
+        socket.onopen = () => console.log('WebSocket connection opened.');
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const chatMessages = document.getElementById('chatMessages');
+
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                const messageItem = document.createElement('li');
+                messageItem.textContent = `${data.from}: ${data.content}`;
+                chatMessages.appendChild(messageItem);
+            }
+        };
+
+        function sendMessage() {
+            const toUserId = document.getElementById('toUserId').value;
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value;
+
+            if (toUserId && message) {
+                const messageObject = {
+                    to: toUserId,
+                    content: message,
+                };
+
+                socket.send(JSON.stringify(messageObject));
+                messageInput.value = ''; // Clear input after sending
+            } else {
+                console.error('To User ID and message are required.');
+            }
+        }
+    </script>
+</body>
+</html>
