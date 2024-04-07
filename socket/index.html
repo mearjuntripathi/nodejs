@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC Audio/Video Streaming</title>
+</head>
+<body>
+    <h1>WebRTC Audio/Video Streaming</h1>
+    <div>
+        <h2>Your Video</h2>
+        <video id="localVideo" autoplay muted></video>
+    </div>
+    <div>
+        <h2>Remote Video</h2>
+        <video id="remoteVideo" autoplay></video>
+    </div>
+    
+    <!-- Include Socket.IO client library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <!-- Your client-side JavaScript code -->
+    <script src="client.js"></script>
+</body>
+</html>
+
+

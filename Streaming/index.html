@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Streaming</title>
+    <style>
+        /* Reset default margin, padding, and box-sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Apply background color to the body */
+        body {
+            font-family: Arial, sans-serif; /* Set a default font */
+            background-color: #f0f0f0; /* Light gray background */
+            display: flex; /* Center content vertically and horizontally */
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+        }
+
+        /* Style the container */
+        .container {
+            text-align: center; /* Center align content */
+            max-width: 800px; /* Limit width for better readability */
+        }
+
+        /* Style the heading */
+        h1 {
+            margin-bottom: 20px; /* Add space below the heading */
+        }
+
+        /* Style the video player */
+        video {
+            width: 100%; /* Make the video player responsive */
+            border-radius: 8px; /* Add rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            outline: none; /* Remove default focus outline */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Streaming</h1>
+        <video id="videoPlayer" controls muted autoplay controlsList="nodownload">
+            <source src="/video" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>        
+    </div>
+</body>
+</html>

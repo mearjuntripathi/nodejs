@@ -65,9 +65,14 @@ function submitForm(formData, formName) {
         formData.delete('confirm_password');
     }
 
-    fetch('/users', {
+    const jsonData = {};
+    formData.forEach((value, key) => {
+        jsonData[key] = value;
+    });
+
+    fetch('/signup', {
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(jsonData), // Send JSON data
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
@@ -77,6 +82,7 @@ function submitForm(formData, formName) {
             console.error('Error:', error);
         });
 }
+
 
 // Add the toggleForm function
 function toggleForm(formId) {
