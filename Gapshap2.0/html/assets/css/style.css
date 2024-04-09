@@ -13,6 +13,41 @@
     overflow: hidden;
 }
 
+.hidden{
+    display: none;
+}
+
+.menu{
+    position: absolute;
+    margin: 60px 0px 0px 10px;
+    width: 300px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px;
+    border-radius: 10px;
+    height: 30vh;
+    padding: 20px;
+}
+
+.menu li{
+    list-style: none;
+    color: white;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    font-weight: bolder;
+    transition: all 0.3s;
+}
+
+.menu li i{
+    color: rgb(203, 200, 200);
+}
+
+.menu li:hover{
+    background-color: #911391;
+}
+
 .users {
     background-color: rgb(53, 29, 52);
     height: 100vh;

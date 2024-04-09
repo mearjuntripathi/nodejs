@@ -14,12 +14,16 @@
 <body class="body">
     <section class="users">
         <div class="search-box">
-            <!-- <i class="fa fa-bars" id="bars"></i> -->
-            <img src="./files/gapshap.png" alt="" style='width: 40px; user-select: none;'>
+            <i class="fa fa-bars" id="bars"></i>
+            <!-- <img src="./files/gapshap.png" alt="" style='width: 40px; user-select: none;'> -->
             <div class="search">
                 <i class="fa fa-search"></i>
                 <input type="text" placeholder="Search" id="search">
             </div>
+        </div>
+        <div class="menu hidden" id="menu">
+            <li><i class="fa fa-user"></i>View Profile</li>
+            <li onclick="logout()"><i class="fa fa-sign-out"></i>Logout</li>
         </div>
         <div class="chat-users">
             <div class="user select" id="server">
@@ -56,6 +60,6 @@
         </div>
     </section>
 </body>
-<script src="./script/client.js"></script>
+<!-- <script src="./script/client.js"></script> -->
 <script src="./script/script.js"></script>
 </html>

@@ -1,7 +1,7 @@
 const express = require('express');
 const { createServer } = require('http');
 const path = require('path');
-const {WebSocket, WebSocketServer } = require('ws');
+const { WebSocketServer } = require('ws');
 const { login, signup } = require('./login-signup');
 
 const port = process.env.PORT || 3000;
@@ -30,8 +30,6 @@ function findClientByUserId(userId) {
     return wss.clients.find((client) => client.userId === userId);
 }
 
-app.chat
-
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/html/index.html');
 });
@@ -46,6 +44,10 @@ app.get('/chat',(req,res) => {
 
 app.post('/login', login);
 app.post('/signup', signup);
+
+app.post('/logout', (req,res)=>{
+    res.sendFile(__dirname + '/html/index.html');
+});
 
 server.listen(port, () => {
     console.log(`Server Listening on: http://localhost:${port}`);

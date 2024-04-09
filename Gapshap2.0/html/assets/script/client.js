@@ -1,20 +1,20 @@
-class Connector{
-    Connector(){
-        this.ws = new WebSocket('ws://localhost:3000');
-    }
+// class Connector{
+//     Connector(){
+//         this.ws = new WebSocket('ws://localhost:3000');
+//     }
 
-    joined(){
+//     joined(){
         
-    }
+//     }
 
-    sendMessage(msg){
+//     sendMessage(msg){
 
-    }
-}
-function sendMessage(msg){
-    ws.send(msg);
-}
+//     }
+// }
+// function sendMessage(msg){
+//     ws.send(msg);
+// }
 
-ws.onmessage = (event) => {
-    createDiv(event.data,"server");
-};
+// ws.onmessage = (event) => {
+//     createDiv(event.data,"server");
+// };

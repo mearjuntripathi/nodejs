@@ -19,6 +19,8 @@ let activeChat = 'server';
 // search input
 let search = document.getElementById('search');
 
+let bars = document.getElementById('bars');
+
 // here we contain all chats
 const chats = { 'server': [{ 'server': 'Welcome to the Gapshap Server' }] };
 
@@ -131,6 +133,31 @@ document.querySelector('.users').addEventListener('click', function (event) {
 document.getElementById('close').addEventListener('click', () => {
     document.querySelector('.users').classList.remove('small');
 })
+
+// show menu
+bars.addEventListener('click',()=>{
+    document.getElementById('menu').classList.toggle('hidden');
+})
+
+// logout command
+function logout(){
+    fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json; charset=UTF-8'
+        }
+    })
+    .then(response => {
+        if(response.ok) {
+            console.log('Logout successful');
+            window.location.href = '/'; // Redirect to index page
+        } else {
+            console.error('Logout failed');
+        }
+    }).catch(error => {
+        console.error('Fetch error:', error);
+    });
+}
 
 // when new user join it insert all previous user
 function insertOldUser(datas) {

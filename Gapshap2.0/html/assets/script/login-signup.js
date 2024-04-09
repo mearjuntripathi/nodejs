@@ -14,7 +14,6 @@ document.body.addEventListener('submit', function (event) {
         const messageElement = document.getElementById(formName).querySelector('.message'); // Find the .message element within the form
 
         if (check(formData, formName)) {
-            console.log(`Custom ${formName} submission`);
             submitForm(formData, formName);
         } else {
             messageElement.innerHTML = `<p>Insert data is not matched</p>`;
@@ -61,6 +60,10 @@ function showImage(value) {
 }
 
 function submitForm(formData, formName) {
+    // Define the URL based on the formName parameter
+    const url = formName === 'signup' ? '/signup' : '/login';
+    var status = 0;
+
     if (formName === 'signup') {
         formData.delete('confirm_password');
     }
@@ -70,19 +73,31 @@ function submitForm(formData, formName) {
         jsonData[key] = value;
     });
 
-    fetch('/signup', {
+    fetch(url, { // Use the determined URL
         method: 'POST',
         body: JSON.stringify(jsonData), // Send JSON data
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
     })
-        .then(response => console.log(response))
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    .then(response => {
+        status = response.status;
+        console.log('Response status:', status);
+        return response.json(); // Parse response as JSON
+    })
+    .then(data => {
+        let message = document.getElementById(formName);
+        if(status >= 200 && status <= 300){
+            message.querySelector('.message').innerHTML = `<p class='success'>${data.message}</p>`;
+        }else{
+            message.querySelector('.message').innerHTML = `<p class='error'>${data.message}</p>`;
+        }
+        console.log('Response data:', data.message); // Log the parsed response data
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
-
 
 // Add the toggleForm function
 function toggleForm(formId) {
