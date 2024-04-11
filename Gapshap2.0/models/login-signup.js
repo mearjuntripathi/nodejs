@@ -1,30 +1,15 @@
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/test');
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB');
-});
-
-// Define User schema
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: { type: String, unique: true }, // Make username unique
-    password: String
-});
-
-
-const User = mongoose.model('users', userSchema);
+const {setUser} = require('../services/auth');
+const User = require('../models/user');
 
 
 const login = async(req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (user && password === user.password) {
-            res.status(200).json({ 'message': 'User created successfully'});
+        const user = await User.findOne({ email , password });
+        if (user) {
+            const token = setUser(user);
+            res.cookie("token", token);
+            res.status(200).json({ 'message': 'sucessfully Login' });
         } else {
             res.status(401).json({ 'message': 'Invalid credentials' });
         }
@@ -35,8 +20,6 @@ const login = async(req, res) => {
 }
 
 const signup = async(req,res) => {
-    console.log(req.body);
-
     try {
         // Check if the user with the given email already exists
         const existingUser = await User.findOne({ email });

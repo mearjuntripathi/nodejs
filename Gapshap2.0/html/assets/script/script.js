@@ -150,7 +150,7 @@ function logout(){
     .then(response => {
         if(response.ok) {
             console.log('Logout successful');
-            window.location.href = '/'; // Redirect to index page
+            window.location.href = '/login'; // Redirect to index page
         } else {
             console.error('Logout failed');
         }

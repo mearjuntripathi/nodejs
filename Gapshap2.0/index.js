@@ -2,7 +2,8 @@ const express = require('express');
 const { createServer } = require('http');
 const path = require('path');
 const { WebSocketServer } = require('ws');
-const { login, signup } = require('./login-signup');
+const { login, signup } = require('./models/login-signup');
+const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 3000;
 
@@ -13,6 +14,7 @@ const wss = new WebSocketServer({ server });
 app.use(express.static(path.join(__dirname, './html/assets')));
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.json()); // Parse JSON bodies
+app.use(cookieParser());
 
 wss.on('connection', (ws) => {
     ws.on('error', console.error);
@@ -26,10 +28,6 @@ wss.on('connection', (ws) => {
     });
 });
 
-function findClientByUserId(userId) {
-    return wss.clients.find((client) => client.userId === userId);
-}
-
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/html/index.html');
 });
@@ -38,15 +36,21 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/html/login-signup.html');
 });
 
-app.get('/chat',(req,res) => {
-    res.sendFile(__dirname + "/html/chat.html")
-})
+const restrictToLoggedInUser = require('./middleware/auth');
+
+app.get('/chat', restrictToLoggedInUser, (req,res) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.sendFile(__dirname + "/html/chat.html");
+});
 
 app.post('/login', login);
 app.post('/signup', signup);
 
 app.post('/logout', (req,res)=>{
-    res.sendFile(__dirname + '/html/index.html');
+    res.clearCookie('token');
+    res.status(200).send({'message': "sucessfully logout"});
 });
 
 server.listen(port, () => {
